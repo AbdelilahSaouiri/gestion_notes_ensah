@@ -40,12 +40,36 @@ $user->fetchDepartementforTeach();
                         <td><?= $prof['email_isntitutionnel'] ?></td>
                         <td><?= $_SESSION['departement']['nom_dep'] ?></td>
                         <td>
-                            <button class="btn btn-primary">
-                                <a class="text-white text-decoration-none" href="./updateProf.php?cin=<?= $prof['cin'] ?>"> Modifier</a>
-                            </button>
-                            <button class=" btn btn-danger">
-                                <a class="text-white text-decoration-none" href="./deleteprof.php?cin=<?= $prof['cin'] ?>" ">Supprimer</a>
-                            </button>
+                            <div class="d-flex">
+                                <button class="btn btn-primary me-2">
+                                    <a class="text-white text-decoration-none" href="./updateProf.php?cin=<?= $prof['cin'] ?>">Modifier</a>
+                                </button>
+                                <form action="./deleteprof.php" method="POST">
+                                    <input type="hidden" name="cin" value="<?= $prof['cin'] ?>">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $prof['cin'] ?>">
+                                        Supprimer
+                                    </button>
+
+                                    <!-- Boîte de dialogue de confirmation de suppression -->
+                                    <div class="modal fade" id="confirmDeleteModal<?= $prof['cin'] ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Êtes-vous sûr de vouloir supprimer ce professeur ?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>

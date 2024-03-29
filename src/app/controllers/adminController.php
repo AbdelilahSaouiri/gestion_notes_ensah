@@ -92,7 +92,16 @@ class adminController
         }
     }
 
-
+    public function deleteProf($cin)
+    {
+        $existe = $this->model->findByCin($cin);
+        if ($existe) {
+            $this->model->delete($cin);
+            $_SESSION['delete_success'] = "Suppression avec success";
+        } else {
+            $_SESSION['delete_erreur'] = "Échec de supprimer";
+        }
+    }
 
 
 

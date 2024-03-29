@@ -117,7 +117,21 @@ class adminModel
         }
     }
 
-
+    public function delete($cin)
+    {
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare("DELETE FROM professeur WHERE cin=:cin");
+            $stmt->bindParam(':cin', $cin);
+            $stmt->execute();
+            $this->conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conn->rollback();
+            echo $e->getMessage();
+            return false;
+        }
+    }
 
     public function getCoordianteur($filiere)
     {
