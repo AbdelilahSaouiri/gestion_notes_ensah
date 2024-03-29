@@ -46,20 +46,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user->update($data, $cin);
     }
 }
-
 ?>
 
-<span class="error text-<?php echo isset($_SESSION['update_error']) ? 'danger' : (isset($_SESSION['update_success']) ? 'success' : 'danger'); ?>" role="alert">
-    <?php
-    if (isset($_SESSION['update_success'])) {
-        echo $_SESSION['update_success'];
-        unset($_SESSION['update_success']);
-    } elseif (isset($_SESSION['update_error'])) {
-        echo $_SESSION['update_error'];
-        unset($_SESSION['update_error']);
-    }
-    ?>
-</span>
+<?php
+
+// Vérifier si la session update_success est définie
+if (isset($_SESSION['update_success'])) {
+    // Récupérer le message de succès
+    $successMessage = $_SESSION['update_success'];
+    // Afficher un script JavaScript pour afficher un modal Bootstrap
+    echo "<script>
+            // Attendre que le document soit chargé
+            document.addEventListener('DOMContentLoaded', function() {
+                // Sélectionner le modal à afficher
+                var modal = new bootstrap.Modal(document.getElementById('successModal'), { keyboard: false });
+                // Afficher le modal avec le message de succès
+                modal.show();
+                // Rediriger vers prof.php après un court délai
+                setTimeout(function() {
+                    window.location.href = './prof.php';
+                }, 3000); // Délai en millisecondes (ici 3000 ms = 3 secondes)
+            });
+          </script>";
+    // Supprimer la session update_success après l'avoir affichée
+    unset($_SESSION['update_success']);
+}
+?>
+<!-- Modal de succès -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="successModalLabel">Mise à jour réussie</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Votre mise à jour a été effectuée avec succès.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="mt-2 text-primary">
     <i class="bi bi-person fs-4 px-2"></i>

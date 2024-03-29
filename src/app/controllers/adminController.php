@@ -81,13 +81,9 @@ class adminController
 
         if ($currentData !== false) {
             $mergedData = array_merge($currentData, $data);
-
-            // Mettre à jour l'utilisateur avec les données fusionnées
             $updated = $this->model->updateProf($mergedData, $cin);
             if ($updated) {
                 $_SESSION['update_success'] = "Mise à jour réussie";
-                header("Location: " . "../../administration/prof/prof.php");
-                exit();
             } else {
                 $_SESSION['update_erreur'] = "Échec de la mise à jour";
             }
