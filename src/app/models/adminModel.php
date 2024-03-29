@@ -86,6 +86,7 @@ class adminModel
 
     public function findByCin($cin)
     {
+        $data = [];
         $stmt = $this->conn->prepare("SELECT *  FROM professeur where cin=:cin");
         $stmt->bindParam(':cin', $cin);
         $stmt->execute();
@@ -98,7 +99,7 @@ class adminModel
         try {
             $this->conn->beginTransaction();
             $stmt = $this->conn->prepare("UPDATE professeur
-                                      SET cin=:new_cin, nom=:nom, prenom=:prenom, role=:role, type_prof=:type_prof, email_isntitutionnel=:email_institutionnel
+                                      SET cin=:new_cin, nom=:nom, prenom=:prenom, type_prof=:type_prof, email_isntitutionnel=:email_institutionnel
                                       WHERE cin=:old_cin");
             $stmt->bindParam(':new_cin', $data['cin']);
             $stmt->bindParam(':nom', $data['nom']);
@@ -115,6 +116,7 @@ class adminModel
             return false;
         }
     }
+
 
 
     public function getCoordianteur($filiere)

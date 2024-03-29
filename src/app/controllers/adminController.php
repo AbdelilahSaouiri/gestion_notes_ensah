@@ -16,40 +16,6 @@ class adminController
         $this->model = new adminModel();
     }
 
-    public function registerProf($data)
-    {
-        $existingUser = $this->model->auth($data);
-        if ($existingUser) {
-            $_SESSION['error'] = "Cet utilisateur existe déjà.";
-        } else {
-            $inserted = $this->model->storeProf($data);
-            if ($inserted == true) {
-                $_SESSION['success'] = "Le professeur a été enregistré avec succès.";
-            }
-        }
-    }
-
-    public function findProfByCin($cin)
-    {
-        $prof = $this->model->findByCin($cin);
-        if ($prof) {
-            $_SESSION['infos'] = $prof;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    public function update($data, $cin)
-    {
-        if ($this->findProfByCin($cin) == true) {
-            $updated = $this->model->updateProf($data, $cin);
-            if ($updated == true) {
-                $_SESSION['success'] = "updated successufly";
-            } else {
-                $_SESSION['erreur'] = "cet utlilisateur n'existe pas";
-            }
-        }
-    }
 
 
     public function storeProf_Departement($data, $nbrFiliers)
@@ -81,6 +47,57 @@ class adminController
             }
         }
     }
+
+    public function registerProf($data, $nbrFiliers)
+    {
+        $existingUser = $this->model->auth($data);
+        if ($existingUser) {
+            $_SESSION['error'] = "Cet utilisateur existe déjà.";
+        } else {
+            $inserted = $this->model->storeProf($data);
+            if ($inserted == true) {
+                $this->storeProf_Departement($data, $nbrFiliers);
+                $_SESSION['success'] = "Le professeur a été enregistré avec succès.";
+                header("Location: " . "../../administration/prof/prof.php");
+                exit();
+            }
+        }
+    }
+
+    public function findProfByCin($cin)
+    {
+        $prof = $this->model->findByCin($cin);
+        if ($prof) {
+            $_SESSION['profs'] = $prof;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function update($data, $cin)
+    {
+        $currentData = $this->model->findByCin($cin);
+
+        if ($currentData !== false) {
+            $mergedData = array_merge($currentData, $data);
+
+            // Mettre à jour l'utilisateur avec les données fusionnées
+            $updated = $this->model->updateProf($mergedData, $cin);
+            if ($updated) {
+                $_SESSION['update_success'] = "Mise à jour réussie";
+                header("Location: " . "../../administration/prof/prof.php");
+                exit();
+            } else {
+                $_SESSION['update_erreur'] = "Échec de la mise à jour";
+            }
+        } else {
+            $_SESSION['existe_erreur'] = "Utilisateur non trouvé";
+        }
+    }
+
+
+
 
 
     public function fetchAllStudents()

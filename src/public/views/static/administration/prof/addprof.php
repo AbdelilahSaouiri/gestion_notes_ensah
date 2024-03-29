@@ -32,12 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data['filiere'] = isset($_POST["filiere"]) ? $_POST["filiere"] : [];
     $nbrF = count($data['filiere']);
     $errors = $validate->validateData($data);
+    $_SESSION['data'] = $data;
 }
 
 $user = new adminController;
 if (!array_filter((array)$errors)) {
-    $user->registerProf($data);
-    $user->storeProf_Departement($data, $nbrF);
+    $user->registerProf($data, $nbrF);
+    //$user->storeProf_Departement($data, $nbrF);
 }
 
 ?>
