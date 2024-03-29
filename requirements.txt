@@ -1,0 +1,76 @@
+Web 1 : Technologie du Web et PHP5
+
+Sujet : projet de réalisation et déploiement d'une application Web de gestion des notes au 
+sein de l'ENSAH
+
+
+ actors:
+  etudiant
+  professeur
+  coordinateur de filiere
+  chef de departement
+
+ cas d'utilisations:
+ 
+ etudiant{
+  role=1;
+  login
+  consulter ces notes proprie a lui      Read 
+  consulter emploi du temps              Read+download
+  consulter archive des notes            Read+download
+ }
+
+ professeur:
+ {
+ role=2;
+ login
+ saisir les notes de chaque etudiant    Create + update
+ consulter son emploi du temps           Read+download
+ consulter sa liste des modules          Read +download
+ consulter archive des notes              Read+download
+}
+
+Coordinateur de filiere:
+{
+ role=3;
+ login
+ acceder au notes des etudiants            Read
+ exporter les notes sous forme de csv      Download sous forme de csv
+ fournir la liste des etudiants et les modules      CRUD
+ affecter les modules au professeur (crud un module)  CRUD
+ consulter archive de notes                        Read
+ creer l'emploi du temps                         CRUD
+ collecter les notes de chaque semester             CRUD
+}
+
+chef de departement  et administrateur
+{
+  role=4;
+  gerer la liste des modules      CRUD
+  gerer la liste des professeurs     CRUD
+  consulter archive de notes           Read
+  affecter les modules au professeur
+
+}
+
+administrateur{
+crud app pour les autres actors
+
+}
+Database:  gestion_notes_ensah
+tables:
+
+student
+professeur
+coordinateur
+chef_de_departement
+login
+token 
+
+.htaccess
+
+RewriteEngine on
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+RewriteRule . index.php [L]

@@ -1,0 +1,20 @@
+{
+    "name": "dell/gestion_notes_ensah",
+    "autoload": {
+        "classmap": [
+            "src",
+            "src/app",
+            "src/app/controllers",
+            "src/app/models",
+            "src/database",
+            "src/app/validator",
+            "src/public/views/static"
+        ]
+    },
+    "authors": [
+        {
+            "name": "abdelilah saouiri"
+        }
+    ],
+    "require": {}
+}
