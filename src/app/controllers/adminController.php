@@ -58,24 +58,30 @@ class adminController
         if ($existingUser) {
             $_SESSION['error'] = "Cet utilisateur existe déjà.";
         } else {
-            $donnees = [];
+
+            $cord = [];
+            $chef_dep = [];
+            $chef_dep = $this->model->getChefDepartement($data['departement']);
             for ($i = 0; $i < $nbrFiliers; $i++) {
                 $coordinateurs = $this->model->getCoordianteur($data['filiere'][$i]);
-                foreach ($coordinateurs as $coordinateur) {
-                    $cord[] = $coordinateur;
+                if ($coordinateurs) {
+                    foreach ($coordinateurs as $coordinateur) {
+                        $cord[] = $coordinateur;
+                    }
                 }
             }
-
-            for ($i = 0; $i < $nbrFiliers; $i++) {
-                $chef_dep = $this->model->getChefDepartement($data['departement']);
-                $donnees['nom_dep'] = $data['departement'];
-                $donnees['cin_prof'] =  $data['cin'];
-                $donnees['cin_cord'] = $cord[$i]['cin'];
-                $donnees['cin_chef_dep'] = $chef_dep['cin'];
-                $this->model->storeProfinDepartement($donnees);
+            if (!empty($cord)) {
+                for ($i = 0; $i < $nbrFiliers; $i++) {
+                    $donnees['nom_dep'] = $data['departement'];
+                    $donnees['cin_prof'] =  $data['cin'];
+                    $donnees['cin_cord'] = $cord[$i]['cin'];
+                    $donnees['cin_chef_dep'] = $chef_dep['cin'];
+                    $this->model->storeProfinDepartement($donnees);
+                }
             }
         }
     }
+
 
     public function fetchAllStudents()
     {

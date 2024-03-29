@@ -124,7 +124,7 @@ class adminModel
                                     WHERE filiere.nom_filiere = :filiere");
         $stmt->bindValue(":filiere", $filiere, PDO::PARAM_STR);
         $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         // Vérifiez si des résultats sont renvoyés avant d'essayer d'y accéder
         if ($data) {
             return $data;
@@ -144,7 +144,11 @@ class adminModel
         $stmt->bindParam(":departement", $departement, PDO::PARAM_STR);
         $stmt->execute();
         $chef_departement = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $chef_departement;
+        if ($chef_departement) {
+            return $chef_departement;
+        } else {
+            return false;
+        }
     }
 
 
@@ -192,5 +196,6 @@ class adminModel
 }
 
 
-// var_dump($user->authProfDepartement("m123456"));
-// var_dump($user->findByCin("m123456"));
+// $user = new adminModel;
+
+// var_dump($user->getChefDepartement("informatique et mathematique"));

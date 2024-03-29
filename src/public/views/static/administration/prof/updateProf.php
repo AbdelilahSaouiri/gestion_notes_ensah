@@ -37,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $errors = $validate->validateData($data);
 }
 
-var_dump($data);
 
 
 if (!array_filter($errors)) {
