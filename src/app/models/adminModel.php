@@ -30,6 +30,17 @@ class adminModel
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         return $user;
     }
+
+    public function authEtud($data)
+    {
+        $stmt = $this->conn->prepare("select * from etudiant where
+                                   cin=:cin ");
+        $stmt->bindParam(":cin", $data['cin']);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $user;
+    }
+
     public function authProfDepartement($cin)
     {
 
@@ -46,8 +57,8 @@ class adminModel
     {
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare("INSERT INTO professeur(cin, nom, prenom,type_prof, role, email_isntitutionnel)
-                                    VALUES(:cin, :nom, :prenom,:type_prof, :role, :email)");
+            $stmt = $this->conn->prepare("INSERT INTO professeur(cin, nom, prenom,type_prof, role,email_isntitutionnel)
+                                    VALUES(:cin, :nom, :prenom,:type_prof, :role,:email)");
             $stmt->bindParam(":cin", $data['cin']);
             $stmt->bindParam(":nom", $data['nom']);
             $stmt->bindParam(":prenom", $data['prenom']);
@@ -59,6 +70,24 @@ class adminModel
             return true;
         } catch (PDOException $e) {
             $this->conn->rollback();
+            return false;
+        }
+    }
+
+    public function storeProfinFiliere($data, $id)
+    {
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare("INSERT INTO affectation_prof_filiere (id_filiere,cin_prof) VALUES 
+                        (:id_filiere, :cin_prof)");
+            $stmt->bindValue(":id_filiere", $id, PDO::PARAM_STR);
+            $stmt->bindValue(":cin_prof", $data['cin'], PDO::PARAM_STR);
+            $stmt->execute();
+            $this->conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conn->rollback();
+            echo $e->getMessage();
             return false;
         }
     }
@@ -83,6 +112,7 @@ class adminModel
             return false;
         }
     }
+
 
     public function findByCin($cin)
     {
@@ -149,8 +179,6 @@ class adminModel
         }
     }
 
-
-
     public function getChefDepartement($departement)
     {
 
@@ -167,7 +195,18 @@ class adminModel
         }
     }
 
+    public function getIdFiliereByName($filiere)
+    {
+        $stmt = $this->conn->prepare("select id from filiere  where nom_filiere=:nom_filiere");
+        $stmt->bindParam(':nom_filiere', $filiere, PDO::PARAM_STR);
+        $stmt->execute();
+        $idFilieres = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $idFilieres;
+    }
 
+    /*
+  students
+  */
     public function getAllStudents()
     {
         $stmt = $this->conn->prepare("select * from etudiant");
@@ -175,6 +214,53 @@ class adminModel
         $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $users;
     }
+
+    public function storeStudent($data)
+    {
+
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare("INSERT INTO etudiant( nom, prenom,cin,cne, role, email_institutionnel)
+                                    VALUES(:nom, :prenom,:cin,:cne, :role, :email)");
+            $stmt->bindParam(":nom", $data['nom']);
+            $stmt->bindParam(":prenom", $data['prenom']);
+            $stmt->bindParam(":cin", $data['cin']);
+            $stmt->bindParam(":cne", $data['cne']);
+            $stmt->bindValue(":role", 1);
+            $stmt->bindParam(":email", $data['email']);
+            $stmt->execute();
+            $this->conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conn->rollback();
+            return false;
+        }
+    }
+
+    public function storeEtudinfiliere($data)
+    {
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare("INSERT INTO filiere(nom_filiere, cin_cord, cin_chef_dep, cne_etud,cin_prof)
+                                      VALUES(:nom_filiere, :cin_cord, :cin_chef_dep, :cne_etud,cin_prof)");
+
+            $stmt->bindValue(":nom_filiere", $data['nom_dep'], PDO::PARAM_STR);
+            $stmt->bindValue(":cin_cord", $data['cin_cord'], PDO::PARAM_STR);
+            $stmt->bindValue(":cin_chef_dep", $data['cin_chef_dep'], PDO::PARAM_STR);
+            $stmt->bindValue(":cne_etud", $data['cne_etud'], PDO::PARAM_STR);
+            $stmt->bindValue(":cin_prof", $data['cin_prof'], PDO::PARAM_STR);
+            $stmt->execute();
+            $this->conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conn->rollback();
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+
+
     public function getAllteachers()
     {
         $stmt = $this->conn->prepare("select * from professeur");
@@ -191,6 +277,15 @@ class adminModel
         $stmt->execute();
         $users = $stmt->fetch(PDO::FETCH_ASSOC);
         return $users;
+    }
+
+    public function getFiliere()
+    {
+        $stmt = $this->conn->prepare("SELECT nom_filiere FROM  filiere JOIN etudiant ON
+                                      filiere.cne_etud=etudiant.cne");
+        $stmt->execute();
+        $etud = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $etud;
     }
 
     public function getAllCoordinateurs()

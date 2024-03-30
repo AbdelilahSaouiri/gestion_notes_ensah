@@ -8,8 +8,8 @@ include_once "../layout.php";
 
 $user = new adminController;
 
-$user->fetchAllteachers();
-$user->fetchDepartementforTeach();
+$user->fetchAllStudents();
+$user->getfiliereByCne();
 
 ?>
 <div class="mt-4 card">
@@ -17,34 +17,37 @@ $user->fetchDepartementforTeach();
         <div class="card-title my-4">
             <div class="btn btn-outline-warning">
                 <i class="bi bi-person-add text-primary" , style="font-size: 18px;"></i>
-                <a class="text-dark font-monospace text-decoration-none" href="./addprof.php">Ajouter Un professeur</a>
+                <a class="text-dark font-monospace text-decoration-none" href="./addEtud.php">Ajouter Un Etudiant</a>
             </div>
         </div>
         <table class="table table-bordered border-primary text-center">
             <thead>
                 <tr>
-                    <th scope="col">CIN</th>
+
                     <th scope="col">NOM</th>
                     <th scope="col">PRENOM</th>
+                    <th scope="col">CIN</th>
+                    <th scope="col">CNE</th>
                     <th scope="col">EMAIL_INSTITUTIONNEL</th>
-                    <th scope="col">DEPARTEMENT</th>
+                    <th scope="col">FILIERE</th>
                     <th scope="col">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($_SESSION['profs'] as $prof) : ?>
+                <?php foreach ($_SESSION['students'] as $student) : ?>
                     <tr>
-                        <td><?= $prof['cin'] ?></td>
-                        <td><?= $prof['nom'] ?></td>
-                        <td><?= $prof['prenom'] ?></td>
-                        <td><?= $prof['email_isntitutionnel'] ?></td>
-                        <td><?= $_SESSION['departement']['nom_dep'] ?></td>
+                        <td><?= $student['nom'] ?></td>
+                        <td><?= $student['prenom'] ?></td>
+                        <td><?= $student['cin'] ?></td>
+                        <td><?= $student['cne'] ?></td>
+                        <td><?= $student['email_institutionnel'] ?></td>
+                        <td><?= $_SESSION['filiere']['nom_filiere']  ?></td>
                         <td>
                             <div class="d-flex">
                                 <button class="btn btn-primary me-2">
-                                    <a class="text-white text-decoration-none" href="./updateProf.php?cin=<?= $prof['cin'] ?>">Modifier</a>
+                                    <a class="text-white text-decoration-none" href="./updateEtud.php?= $prof['cin'] ?>">Modifier</a>
                                 </button>
-                                <form action="./deleteprof.php" method="POST">
+                                <form action="./deleteEtud.php" method="POST">
                                     <input type="hidden" name="cin" value="<?= $prof['cin'] ?>">
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $prof['cin'] ?>">
                                         Supprimer
@@ -59,7 +62,7 @@ $user->fetchDepartementforTeach();
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Êtes-vous sûr de vouloir supprimer cet etudiant ?
+                                                    Êtes-vous sûr de vouloir supprimer ce professeur ?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

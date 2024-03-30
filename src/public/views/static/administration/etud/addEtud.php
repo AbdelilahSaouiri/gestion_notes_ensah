@@ -19,82 +19,47 @@ function test_input($data)
 }
 
 $validate = new Validator();
-$nbrF = 0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $data['cin'] = isset($_POST["cin"]) ? test_input($_POST["cin"]) : "";
     $data['nom'] = isset($_POST["nom"]) ? test_input($_POST["nom"]) : "";
     $data['prenom'] = isset($_POST["prenom"]) ? test_input($_POST["prenom"]) : "";
+    $data['cne'] = isset($_POST["prenom"]) ? test_input($_POST["prenom"]) : "";
     $data['email'] = isset($_POST["email"]) ? test_input($_POST["email"]) : "";
     $data['departement'] = isset($_POST["departement"]) ? test_input($_POST["departement"]) : "";
-    $data['type_prof'] = isset($_POST["type_prof"]) ? test_input($_POST["type_prof"]) : "";
-    $data['filiere'] = isset($_POST["filiere"]) ? $_POST["filiere"] : [];
-    $nbrF = count($data['filiere']);
+    $data['filiere'] = isset($_POST["filiere"]) ? $_POST["filiere"] : "";
     $errors = $validate->validateData($data);
     $_SESSION['data'] = $data;
 }
 
+var_dump($data);
+
 $user = new adminController;
 if (!array_filter((array)$errors)) {
-    $user->registerProf($data, $nbrF);
+    $user->registerStudent($data);
+    //$user->storeProf_Departement($data, $nbrF);
 }
 
 ?>
-<?php
-if (isset($_SESSION['success'])) {
-    // Récupérer le message de succès
-    $successMessage = $_SESSION['success'];
-    // Afficher un script JavaScript pour afficher un modal Bootstrap
-    echo "<script>
-    // Attendre que le document soit chargé
-    document.addEventListener('DOMContentLoaded', function() {
-        // Sélectionner le modal à afficher
-        var modal = new bootstrap.Modal(document.getElementById('successModal'), {
-            keyboard: false
-        });
-        // Afficher le modal avec le message de succès
-        modal.show();
-        // Rediriger vers prof.php après un court délai
-        setTimeout(function() {
-            window.location.href = './prof.php';
-        }, 3000); // Délai en millisecondes (ici 3000 ms = 3 secondes)
-    });
-</script>";
-    // Supprimer la session update_success après l'avoir affichée
-    unset($_SESSION['success']);
-}
-if (isset($_SESSION['error'])) {
-    echo "<span class='error text-danger'>
-    " . $_SESSION['error'] . "
-    </span>";
-    unset($_SESSION['error']);
-}
-?>
-
-<!-- Modal de succès -->
-<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="successModalLabel">Enregistrement réussie</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Le professeur a été enregistré avec succès.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 
+
+<span class="error text-<?php echo isset($_SESSION['error']) ? 'danger' : (isset($_SESSION['success']) ? 'success' : 'danger'); ?>" role="alert">
+    <?php
+    if (isset($_SESSION['success'])) {
+        echo $_SESSION['success'];
+        unset($_SESSION['success']);
+    } elseif (isset($_SESSION['error'])) {
+        echo $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+    ?>
+</span>
 
 <div class="mt-2 text-primary  ">
     <i class="bi bi-person-add fs-4 px-2"></i>
-    <span class="h6 text-primary ">Ajouter Un Professeur</span>
+    <span class="h6 text-primary ">Ajouter Un Etudiant</span>
 </div>
 <form action="" method="POST">
     <div class="mt-2">
@@ -110,6 +75,11 @@ if (isset($_SESSION['error'])) {
     <div class=" mb-2">
         <label for="prenom" class="form-label">Prénom</label>
         <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo isset($data['prenom']) ?  $data['prenom'] : '' ?>" required>
+        <span class=" error text-danger"><?php echo isset($errors['empty_prenom']) ?  $errors['empty_prenom'] :  "" ?></span>
+    </div>
+    <div class=" mb-2">
+        <label for="cne" class="form-label">CNE</label>
+        <input type="text" class="form-control" id="cne" name="cne" value="<?php echo isset($data['cne']) ?  $data['cne'] : '' ?>" required>
         <span class=" error text-danger"><?php echo isset($errors['empty_prenom']) ?  $errors['empty_prenom'] :  "" ?></span>
     </div>
     <div class=" mb-2">
@@ -129,18 +99,8 @@ if (isset($_SESSION['error'])) {
         <span class=" error text-danger"><?php echo isset($errors['empty_departement']) ?  $errors['empty_departement'] :  "" ?></span>
     </div>
     <div class="mb-2">
-        <label for="type_prof" class="form-label">Type de Professeur*</label>
-        <select class="form-select" id="type_prof" name="type_prof" required>
-            <option selected disabled>Sélectionner le type de professeur</option>
-            <option value="Titulaire" selected>Titulaire</option>
-            <option value="Vacataire">Vacataire</option>
-            <option value="Assistant">Assistant</option>
-        </select>
-        <span class=" error text-danger"><?php echo isset($errors['empty_type_prof']) ?  $errors['empty_type_prof'] :  "" ?></span>
-    </div>
-    <div class="mb-2">
         <label for="filiere" class="form-label">Filieres*</label>
-        <select multiple class="form-select" id="filiere" name="filiere[]" required>
+        <select class="form-select" id="filiere" name="filiere" required>
             <option selected disabled>Sélectionner les filières</option>
             <optgroup label="Mathématique et Informatique">
                 <option value="AP1" selected>API1</option>

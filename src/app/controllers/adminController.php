@@ -15,8 +15,15 @@ class adminController
     {
         $this->model = new adminModel();
     }
+    /*
+     CRUD app pour les professeurs 
+      */
 
-
+    public function fetchAllteachers()
+    {
+        $profs = $this->model->getAllteachers();
+        $_SESSION['profs'] = $profs;
+    }
 
     public function storeProf_Departement($data, $nbrFiliers)
     {
@@ -48,18 +55,36 @@ class adminController
         }
     }
 
+    public function registerProf_Filiere($data, $nbrFiliers)
+    {
+
+        $id_filieres = [];
+        for ($i = 0; $i < $nbrFiliers; $i++) {
+            $ids = $this->model->getIdFiliereByName($data['filiere'][$i]);
+            if ($ids) {
+                foreach ($ids as $id) {
+                    $id_filieres[] = $id;
+                }
+            }
+        }
+        for ($i = 0; $i < $nbrFiliers; $i++) {
+            $this->model->storeProfinFiliere($data, $id_filieres[$i]['id']);
+        }
+    }
+
+
     public function registerProf($data, $nbrFiliers)
     {
         $existingUser = $this->model->auth($data);
+
         if ($existingUser) {
             $_SESSION['error'] = "Cet utilisateur existe déjà.";
         } else {
             $inserted = $this->model->storeProf($data);
-            if ($inserted == true) {
+            if ($inserted) {
                 $this->storeProf_Departement($data, $nbrFiliers);
+                $this->registerProf_Filiere($data, $nbrFiliers);
                 $_SESSION['success'] = "Le professeur a été enregistré avec succès.";
-                header("Location: " . "../../administration/prof/prof.php");
-                exit();
             }
         }
     }
@@ -103,27 +128,44 @@ class adminController
         }
     }
 
-
-
-    public function fetchAllStudents()
-    {
-
-        $students = $this->model->getAllStudents();
-        $_SESSION['students'] = $students;
-    }
-    public function fetchAllteachers()
-    {
-        $profs = $this->model->getAllteachers();
-        $_SESSION['profs'] = $profs;
-    }
-
     public function fetchDepartementforTeach()
     {
         $departements = $this->model->getDepartementforEachTeachers();
         $_SESSION['departement'] = $departements;
-        // var_dump($_SESSION['departement']);
-        // exit;
     }
+
+
+    /*
+     CRUD app pour les students 
+      */
+    public function fetchAllStudents()
+    {
+        $students = $this->model->getAllStudents();
+        $_SESSION['students'] = $students;
+    }
+
+    public function getfiliereByCne()
+    {
+        $filiere = $this->model->getFiliere();
+        $_SESSION['filiere'] = $filiere;
+    }
+
+    public function registerStudent($data)
+    {
+        $existingUser = $this->model->authEtud($data);
+        if ($existingUser) {
+            $_SESSION['error'] = "Cet utilisateur existe déjà.";
+        } else {
+        }
+    }
+
+
+
+
+
+
+
+
     public function fetchAllCoordinateurs()
     {
         $coordinateurs = $this->model->getAllcoordinateurs();

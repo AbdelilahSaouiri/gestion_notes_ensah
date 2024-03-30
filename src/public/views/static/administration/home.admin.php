@@ -8,7 +8,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="btn btn-primary w-25 mb-2"><i class="bi bi-person" style="font-size:20px"></i> <a class="text-white text-decoration-none" href="./etud.php">Consulter Etudiants</a></div>
+                <div class="btn btn-primary w-25 mb-2"><i class="bi bi-person" style="font-size:20px"></i> <a class="text-white text-decoration-none" href="./etud/etud.php">Consulter Etudiants</a></div>
             </div>
         </div>
         <div class="row">
