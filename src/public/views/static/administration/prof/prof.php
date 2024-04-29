@@ -11,6 +11,7 @@ $user = new adminController;
 $user->fetchAllteachers();
 $user->fetchDepartementforTeach();
 
+
 ?>
 <div class="mt-4 card">
     <div class="card-body">

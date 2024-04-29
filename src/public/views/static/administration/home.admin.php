@@ -13,12 +13,12 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="btn btn-primary w-25 mb-2"><i class="bi bi-person" style="font-size:20px"></i> <a class="text-white text-decoration-none" href="./cord.php">Consulter Coordinateur</a> </div>
+                <div class="btn btn-primary w-25 mb-2"><i class="bi bi-person" style="font-size:20px"></i> <a class="text-white text-decoration-none" href="./coordinateur/cord.php">Consulter Coordinateur</a> </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <div class="btn btn-primary w-25 mb-2"><i class="bi bi-person" style="font-size:20px"></i> <a class="text-white text-decoration-none" href="./chef_dep.php">Consulter Chef departement</a> </div>
+                <div class="btn btn-primary w-25 mb-2"><i class="bi bi-person" style="font-size:20px"></i> <a class="text-white text-decoration-none" href="./chef_dep/chef_dep.php">Consulter Chef departement</a> </div>
             </div>
         </div>
         <div class="row">

@@ -21,7 +21,7 @@ function test_input($data)
 
 $cin = isset($_POST['cin']) ? $_POST['cin'] : "";
 
-$user->deleteEtudiant($cin);
-header("Location:./etud.php");
+$user->deleteChefDepartement($cin);
+header("Location:./chef_dep.php");
 
 ?>

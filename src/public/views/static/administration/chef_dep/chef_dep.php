@@ -8,9 +8,8 @@ include_once "../layout.php";
 
 $user = new adminController;
 
-$filiers = $user->fetchAllStudents();
+$user->fetchAllchefDepartement();
 
-$i = 0;
 
 ?>
 <div class="mt-4 card">
@@ -18,7 +17,7 @@ $i = 0;
         <div class="card-title my-4">
             <div class="btn btn-outline-warning">
                 <i class="bi bi-person-add text-primary" , style="font-size: 18px;"></i>
-                <a class="text-dark font-monospace text-decoration-none" href="./addEtud.php">Ajouter Un Etudiant</a>
+                <a class="text-dark font-monospace text-decoration-none" href="./addChefDep.php">Ajouter Un Chef de Departement</a>
             </div>
         </div>
         <table class="table table-bordered border-primary text-center">
@@ -27,36 +26,34 @@ $i = 0;
 
                     <th scope="col">NOM</th>
                     <th scope="col">PRENOM</th>
-                    <th scope="col">CIN</th>
-                    <th scope="col">CNE</th>
                     <th scope="col">EMAIL_INSTITUTIONNEL</th>
-                    <th scope="col">FILIERE</th>
+                    <th scope="col">CIN</th>
+                    <th scope="col">DEPARTEMENT</th>
                     <th scope="col">ACTIONS</th>
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($_SESSION['students'] as $student) :
+                <?php foreach ($_SESSION['chef_departements'] as $chef_dep) :
                 ?>
                     <tr>
-                        <td><?= $student['nom'] ?></td>
-                        <td><?= $student['prenom'] ?></td>
-                        <td><?= $student['cin'] ?></td>
-                        <td><?= $student['cne'] ?></td>
-                        <td><?= $student['email_institutionnel'] ?></td>
-                        <td><?= $_SESSION['filiers'][$i++]['nom_filiere'] ?></td>
+                        <td><?= $chef_dep['nom'] ?></td>
+                        <td><?= $chef_dep['prenom'] ?></td>
+                        <td><?= $chef_dep['email_institutionnel'] ?></td>
+                        <td><?= $chef_dep['cin'] ?></td>
+                        <td><?= $user->fetchNomDepartement($chef_dep['cin']) ?></td>
                         <td>
                             <div class="d-flex">
                                 <button class="btn btn-primary me-2">
-                                    <a class="text-white text-decoration-none" href="./updateEtud.php?cin=<?= $student['cin'] ?>">Modifier</a>
+                                    <a class="text-white text-decoration-none" href="./updateChef.php?cin=<?php echo $chef_dep['cin']; ?>">Modifier</a>
                                 </button>
-                                <form action="./deleteEtud.php" method="POST">
-                                    <input type="hidden" name="cin" value="<?= $student['cin'] ?>">
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $student['cin'] ?>">
+                                <form action="./deleteChefDep.php" method="POST">
+                                    <input type="hidden" name="cin" value="<?= $chef_dep['cin'] ?>">
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal<?= $chef_dep['cin'] ?>">
                                         Supprimer
                                     </button>
 
                                     <!-- Boîte de dialogue de confirmation de suppression -->
-                                    <div class="modal fade" id="confirmDeleteModal<?= $student['cin'] ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                                    <div class="modal fade" id="confirmDeleteModal<?= $chef_dep['cin'] ?>" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -64,7 +61,7 @@ $i = 0;
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    Êtes-vous sûr de vouloir supprimer cet etudiant ?
+                                                    Êtes-vous sûr de vouloir supprimer ce chef de departement ?
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>

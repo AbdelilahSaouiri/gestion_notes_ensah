@@ -7,8 +7,14 @@ use src\app\validattor\Validator;
 
 require_once "../../../../../app/controllers/adminController.php";
 
-$data = [];
+$data = isset($_SESSION['cord_data']) ? $_SESSION['cord_data'] : [];
 $errors = [];
+
+$user = new adminController;
+
+$cin = isset($_GET['cin']) ? $_GET['cin'] : "";
+$user->findCordByCin($cin);
+$cord = isset($_SESSION['cord']) ? $_SESSION['cord'] : [];
 
 function test_input($data)
 {
@@ -18,29 +24,24 @@ function test_input($data)
     return $data;
 }
 
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+    $data['cin'] = isset($_POST["cin"]) ? test_input($_POST["cin"]) : "";
     $data['nom'] = isset($_POST["nom"]) ? test_input($_POST["nom"]) : "";
     $data['prenom'] = isset($_POST["prenom"]) ? test_input($_POST["prenom"]) : "";
-    $data['cin'] = isset($_POST["cin"]) ? test_input($_POST["cin"]) : "";
-    $data['cne'] = isset($_POST["cne"]) ? test_input($_POST["cne"]) : "";
     $data['email'] = isset($_POST["email"]) ? test_input($_POST["email"]) : "";
     $data['departement'] = isset($_POST["departement"]) ? test_input($_POST["departement"]) : "";
     $data['filiere'] = isset($_POST["filiere"]) ? $_POST["filiere"] : "";
-    $_SESSION['data_etud'] = $data;
+
+    //fait appel a une methode verification avant  cad methode de Validator
+    $user->updateCoordinateur($data, $cin);
 }
 
-$user = new adminController;
-//fait appel a une methode verification avant  cad methode de Validator
-
-$user->registerStudent($data);
 ?>
 <?php
-if (isset($_SESSION['etud_success'])) {
+if (isset($_SESSION['cord_success'])) {
     // Récupérer le message de succès
-    $successMessage = $_SESSION['etud_success'];
+    $successMessage = $_SESSION['cord_success'];
     // Afficher un script JavaScript pour afficher un modal Bootstrap
     echo "<script>
     // Attendre que le document soit chargé
@@ -51,20 +52,20 @@ if (isset($_SESSION['etud_success'])) {
         });
         // Afficher le modal avec le message de succès
         modal.show();
-        // Rediriger vers prof.php après un court délai
+        // Rediriger vers cord.php après un court délai
         setTimeout(function() {
-            window.location.href = './etud.php';
-        }, 2000); // Délai en millisecondes (ici 3000 ms = 3 secondes)
+            window.location.href = './cord.php';
+        }, 3000); // Délai en millisecondes (ici 3000 ms = 3 secondes)
     });
 </script>";
-    // Supprimer la session update_success après l'avoir affichée
-    unset($_SESSION['etud_success']);
+    // Supprimer la session cord_success après l'avoir affichée
+    unset($_SESSION['cord_success']);
 }
-if (isset($_SESSION['etud_error'])) {
+if (isset($_SESSION['cord_error'])) {
     echo "<span class='error text-danger'>
-    " . $_SESSION['etud_error'] . "
+    " . $_SESSION['cord_error'] . "
     </span>";
-    unset($_SESSION['etud_error']);
+    unset($_SESSION['cord_error']);
 }
 ?>
 <!-- Modal de succès -->
@@ -76,7 +77,7 @@ if (isset($_SESSION['etud_error'])) {
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Etudiant a été enregistré avec succès.
+                Coordinateur a été modifié avec succès.
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fermer</button>
@@ -87,34 +88,29 @@ if (isset($_SESSION['etud_error'])) {
 
 <div class="mt-2 text-primary  ">
     <i class="bi bi-person-add fs-4 px-2"></i>
-    <span class="h6 text-primary ">Ajouter Un Etudiant</span>
+    <span class="h6 text-primary ">Modifier Coordinateur</span>
 </div>
 <form action="" method="POST">
 
     <div class="mt-2">
         <label for="cin" class="form-label">CIN</label>
-        <input type="text" class="form-control" id="cin" name="cin" value="<?php echo isset($data['cin']) ?  $data['cin'] : '' ?>" required>
+        <input type="text" class="form-control" id="cin" name="cin" value="<?php echo isset($data['cin']) ?  $data['cin'] : $cord['cin'] ?>" required>
         <span class=" error text-danger"><?php echo isset($errors['empty_cin']) ?  $errors['empty_cin'] :  "" ?></span>
     </div>
     <div class=" mb-2">
         <label for="nom" class="form-label">Nom</label>
-        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo isset($data['nom']) ?  $data['nom'] : '' ?>" required>
+        <input type="text" class="form-control" id="nom" name="nom" value="<?php echo isset($data['nom']) ?  $data['nom'] : $cord['nom'] ?>" required>
         <span class=" error text-danger"><?php echo isset($errors['empty_nom']) ?  $errors['empty_nom'] :  "" ?></span>
     </div>
     <div class=" mb-2">
         <label for="prenom" class="form-label">Prénom</label>
-        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo isset($data['prenom']) ?  $data['prenom'] : '' ?>" required>
+        <input type="text" class="form-control" id="prenom" name="prenom" value="<?php echo isset($data['prenom']) ?  $data['prenom'] : $cord['prenom'] ?>" required>
         <span class=" error text-danger"><?php echo isset($errors['empty_prenom']) ?  $errors['empty_prenom'] :  "" ?></span>
     </div>
 
     <div class=" mb-2">
-        <label for="cne" class="form-label">CNE</label>
-        <input type="text" class="form-control" id="cne" name="cne" value="<?php echo isset($data['cne']) ?  $data['cne'] : '' ?>" required>
-
-    </div>
-    <div class=" mb-2">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($data['email']) ? $data['email'] : '' ?>" required>
+        <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($data['email']) ? $data['email'] : $cord['email_institutionnel']  ?>" required>
         <span class=" error text-danger">
             <?php echo isset($errors['empty_email']) ? $errors['empty_email'] : (isset($errors['invalid_email']) ? $errors['invalid_email'] : "") ?></span>
     </div>
@@ -133,7 +129,7 @@ if (isset($_SESSION['etud_error'])) {
         <select class="form-select" id="filiere" name="filiere" required>
             <option selected disabled>Sélectionner les filières</option>
             <optgroup label="Mathématique et Informatique">
-                <option value="AP1">API1</option>
+                <option value="AP1" selected>API1</option>
                 <option value="AP2">API2</option>
                 <option value="GI1">GI1</option>
                 <option value="GI2">GI2</option>
@@ -159,5 +155,5 @@ if (isset($_SESSION['etud_error'])) {
     </div>
     <span class=" error text-danger"><?php echo isset($errors['empty_filiere']) ?  $errors['empty_filiere'] :  "" ?></span>
 
-    <button type="submit" class="my-4 btn btn-primary">Enregistrer</button>
+    <button type="submit" class="my-4 btn btn-primary">Modifier</button>
 </form>
