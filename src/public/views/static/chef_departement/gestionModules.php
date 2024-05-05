@@ -9,8 +9,11 @@ $cin = isset($_SESSION['chef_cin']) ? $_SESSION['chef_cin'] : "";
 $departement = $user->getDepartement($cin);
 $filiers = $user->getAllfiliersforDepartement($cin);
 ?>
-<?php include "./masterPage.php" ?>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<?php include "./masterPage.php" ?>
 <main class="content">
     <div class="container-fluid p-0">
         <h1 class="h3 mb-3 ">
@@ -25,14 +28,16 @@ $filiers = $user->getAllfiliersforDepartement($cin);
                         <div class="card-body">
                             <div class="row">
                                 <div class="col mt-0">
-                                    <h5 class="card-title"><?php echo $filiere['nom_filiere']; ?></h5>
+                                    <a href="./listemodules.php?filiere=<?= $filiere['nom_filiere'] ?>" class="card-title"><?php echo $filiere['nom_filiere']; ?></a>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
         </div>
+
 </main>
 </div>
 </div>

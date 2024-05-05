@@ -56,13 +56,14 @@ class userController
 
                 $_SESSION['nom'] = $utilisateur['nom'];
                 $_SESSION['prenom'] =  $utilisateur['prenom'];
-                $_SESSION['cin'] =  $utilisateur['cin'];
+                $_SESSION['cin_cord'] =  $utilisateur['cin'];
                 header("Location: http://localhost/gestion_notes_ensah/src/public/views/static/coordinateur/home.cordinateur.php");
                 exit;
             }
             if ($role == 4) {
                 $_SESSION['nom'] = $utilisateur['nom'];
                 $_SESSION['prenom'] =  $utilisateur['prenom'];
+                $_SESSION['chef_cin'] = $utilisateur['cin'];
                 header("Location: http://localhost/gestion_notes_ensah/src/public/views/static/chef_departement/home.chef_dep.php");
                 exit;
             } else {

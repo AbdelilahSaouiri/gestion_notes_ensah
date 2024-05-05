@@ -1,16 +1,17 @@
 <?php
 session_start();
-include_once "../../../../app/controllers/chefDepartementController.php";
 
-use src\app\controllers\chefDepartementController;
+include_once "../../../../app/controllers/coordinateurController.php";
 
-$user = new chefDepartementController;
-$cin = isset($_SESSION['chef_cin']) ? $_SESSION['chef_cin'] : "";
-$departement = $user->getDepartement($cin);
-$filiers = $user->getAllfiliersforDepartement($cin);
+use src\app\controllers\coordinateurController;
+
+$cord = new coordinateurController;
+$cin_cord = isset($_SESSION['cin_cord']) ? $_SESSION['cin_cord'] : "";
+$departement = $cord->getDepartement($cin_cord);
+$filiers = $cord->getfiliere($cin_cord);
 ?>
-<?php include "./masterPage.php" ?>
 
+<?php include "./masterPage.php" ?>
 <main class="content">
     <div class="container-fluid p-0">
         <h1 class="h3 mb-3 ">
@@ -25,9 +26,10 @@ $filiers = $user->getAllfiliersforDepartement($cin);
                         <div class="card-body">
                             <div class="row">
                                 <div class="col mt-0">
-                                    <h5 class="card-title"><?php echo $filiere['nom_filiere']; ?></h5>
+                                    <a href="./affectation_prof_modules.php?filiere=<?= $filiere['nom_filiere'] ?>" class="card-title"><?php echo $filiere['nom_filiere']; ?></a>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

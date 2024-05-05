@@ -15,12 +15,17 @@ class coordinateurController
         $this->model = new coordinateurModel;
     }
 
-    public function getfiliere()
+    public function getDepartement($cin)
     {
-        $cin = "";
-        if (isset($_SESSION['cin']))
-            $cin = $_SESSION['cin'];
-        $filieres = $this->model->getFilieresForEachCoordinateur($cin);
-        $_SESSION['filieres'] = $filieres;
+        return $this->model->fetchDepartement($cin);
+    }
+    public function getfiliere($cin)
+    {
+        return $this->model->getFilieresForEachCoordinateur($cin);
+    }
+
+    public function getModulesByFiliere($filiere, $semestre)
+    {
+        return $this->model->fetchModules_filiere($filiere, $semestre);
     }
 }

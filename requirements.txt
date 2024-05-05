@@ -47,16 +47,14 @@ chef de departement  et administrateur
 {
   role=4;
   gerer la liste des modules      CRUD
-  gerer la liste des professeurs     CRUD
+  affecter prof a une module  CRUD
   consulter archive de notes           Read
-  affecter les modules au professeur
-
 }
 
 administrateur{
-crud app pour les autres actors
-
+crud app pour les autres acteurs
 }
+
 Database:  gestion_notes_ensah
 tables:
 

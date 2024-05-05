@@ -27,7 +27,9 @@ $filiers = $user->getfiliere($cin_cord);
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
-                                <h5 class="card-title"><?php echo $filiere['nom_filiere']; ?></h5>
+                                <h5 class="card-title">
+                                    <a href="./listesModules.php?filiere=<?= $filiere['nom_filiere'] ?>"><?php echo $filiere['nom_filiere']; ?></a>
+                                </h5>
                             </div>
                         </div>
                     </div>
