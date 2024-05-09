@@ -28,4 +28,14 @@ class coordinateurController
     {
         return $this->model->fetchModules_filiere($filiere, $semestre);
     }
+
+    public function getProfsSelonFilieres($id_filiere)
+    {
+        return $this->model->fetchProfsForFiliere($id_filiere);
+    }
+
+    public function getModulesForeachProfesseur($cin_prof)
+    {
+        return $this->model->fetchModulesForProf($cin_prof);
+    }
 }

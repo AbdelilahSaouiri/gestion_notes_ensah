@@ -1,9 +1,12 @@
 <?php
 session_start();
 include_once "../../../../app/controllers/chefDepartementController.php";
+include_once "../../../../app/controllers/RestController.php";
 
 use src\app\controllers\chefDepartementController;
+use src\app\controllers\RestController;
 
+$restcontroller = new RestController;
 $user = new chefDepartementController;
 $Currentfiliere = isset($_GET['filiere']) ? $_GET['filiere'] : "";
 $cin = isset($_SESSION['chef_cin']) ? $_SESSION['chef_cin'] : "";
@@ -12,6 +15,24 @@ $modules1 = $user->getmodules($Currentfiliere, 1);
 $modules2 = $user->getmodules($Currentfiliere, 2);
 $departement = $user->getDepartement($cin);
 $profsDepartement = $user->getProfsSelonDepartement($departement['id_departement']);
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $modulesDataJson = $_POST['modulesData'];
+
+    $modulesData = json_decode($modulesDataJson, true);
+
+    // Supprimer les doublons en utilisant array_unique avec l'option SORT_REGULAR
+    $indexedModulesData = array_values($modulesData);
+    $uniqueModulesData = array_unique($indexedModulesData, SORT_REGULAR);
+
+    // Convertir le tableau multidimensionnel indexé en tableau associatif avec les clés réindexées
+    $uniqueModulesDataAssociative = array_combine(range(0, count($uniqueModulesData) - 1), $uniqueModulesData);
+
+    $restcontroller->affecterModuleProf($uniqueModulesData, $departement['id_departement']);
+}
+
 ?>
 
 <?php include "./masterPage.php" ?>
@@ -37,7 +58,7 @@ $profsDepartement = $user->getProfsSelonDepartement($departement['id_departement
         <div class="row mb-3">
             <div class="col-sm-12">
                 <div class="btn-group " role="group" aria-label="Semesters">
-                    <button type="button" class="btn btn-secondary semester-button mx-2" data-semester="1">Semestre 1</button>
+                    <button id="api" type="button" class="btn btn-secondary semester-button mx-2" data-semester="1">Semestre 1</button>
                     <button type="button" class="btn btn-secondary semester-button" data-semester="2">Semestre 2</button>
                 </div>
             </div>
@@ -71,14 +92,25 @@ $profsDepartement = $user->getProfsSelonDepartement($departement['id_departement
                     </tbody>
                 </table>
                 <div class="d-flex justify-content-center gap-1">
-                    <button class="btn btn-primary  w-25" type="submit">Submit</button>
+                    <button class="btn btn-primary  w-25" id="submitBtn" type="button">Submit</button>
                     <button class="btn btn-primary  w-25" type="reset" onclick="resetValues()">Reset</button>
                 </div>
             </div>
         </div>
     </div>
 </main>
+<form id="dataForm" method="post" action="">
+    <input type="hidden" name="modulesData" id="modulesDataInput" />
+    <button type="submit" style="display: none;">Soumettre</button>
+</form>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const modulesData = JSON.parse(localStorage.getItem("modulesData"));
+        document.getElementById("modulesDataInput").value =
+            JSON.stringify(modulesData);
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const semesterButtons = document.querySelectorAll('.semester-button');
@@ -131,13 +163,14 @@ $profsDepartement = $user->getProfsSelonDepartement($departement['id_departement
         }
 
         // Gestionnaire d'événements pour le bouton "Submit"
-        const submitButton = document.querySelector('.btn-primary');
+        const submitButton = document.getElementById('submitBtn');
         submitButton.addEventListener('click', function() {
             const modulesWithProfessors = getModulesWithProfessors();
             // Stocker les données dans le localStorage
             localStorage.setItem('modulesData', JSON.stringify(modulesWithProfessors));
+            // Soumettre le formulaire
+            document.getElementById('dataForm').submit();
         });
-
 
         // Fonction pour charger les données depuis le localStorage lors du chargement de la page
         function loadModulesDataFromLocalStorage() {

@@ -24,8 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $data['prenom'] = isset($_POST["prenom"]) ? test_input($_POST["prenom"]) : "";
     $data['email'] = isset($_POST["email"]) ? test_input($_POST["email"]) : "";
     $data['type_prof'] = isset($_POST["type_prof"]) ? test_input($_POST["type_prof"]) : "";
-
-    $user->saveprof($data, $departement['id_departement']);
+    $data['filiere'] = isset($_POST["filiere"]) ? $_POST["filiere"] : [];
+    $nbrF = count($data['filiere']);
+    $user->saveprof($data, $departement['id_departement'], $nbrF);
     if (isset($_SESSION['saved_success']))
         header("Location:./gestionprof.php");
     exit();
@@ -87,6 +88,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <option value="Titulaire" selected>Titulaire</option>
                     <option value="Vacataire">Vacataire</option>
                     <option value="Assistant">Assistant</option>
+                </select>
+            </div>
+            <div class="mb-2">
+                <label for="filiere" class="form-label">Filieres*</label>
+                <select multiple class="form-select" id="filiere" name="filiere[]" required>
+                    <option selected disabled>Sélectionner les filières</option>
+                    <optgroup label="Mathématique et Informatique">
+                        <option value="AP1" selected>API1</option>
+                        <option value="AP2">API2</option>
+                        <option value="GI1">GI1</option>
+                        <option value="GI2">GI2</option>
+                        <option value="GI3">GI3</option>
+                        <option value="ID1">ID1</option>
+                        <option value="ID2">ID2</option>
+                        <option value="ID3">ID3</option>
+                        <option value="TDIA1">TDIA1</option>
+                        <option value="TDIA2">TDIA2</option>
+                        <option value="TDIA3">TDIA3</option>
+                    </optgroup>
                 </select>
             </div>
             <div class="d-flex justify-content-center gap-1">

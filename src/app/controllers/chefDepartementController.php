@@ -43,10 +43,12 @@ class chefDepartementController
 
     public function getProfsSelonDepartement($departement)
     {
-        return $this->model->fetchProfsByDepartementId($departement);
+        return  $this->model->fetchProfsByDepartementId($departement);
     }
 
-    public function saveprof($data, $idDepartement)
+
+
+    public function saveprof($data, $idDepartement, $nbrFiliers)
     {
         $cin = isset($data['cin']) ? $data['cin'] : "";
         $userExist = $this->model->authProf($cin);
@@ -55,9 +57,26 @@ class chefDepartementController
         } else {
             $res1 = $this->model->storeProf($data);
             $res2 = $this->model->storeProfInDepartement($data, $idDepartement);
+            $this->registerProf_Filiere($data, $idDepartement, $nbrFiliers);
             if ($res1 == true && $res2 == true) {
                 $_SESSION['saved_success'] = "le prof a été enregistré avec succés ";
             }
+        }
+    }
+
+    public function registerProf_Filiere($data, $idDepartement, $nbrFiliers)
+    {
+        $id_filieres = [];
+        for ($i = 0; $i < $nbrFiliers; $i++) {
+            $ids = $this->model->fetchIdFiliereByName($data['filiere'][$i]);
+            if ($ids) {
+                foreach ($ids as $id) {
+                    $id_filieres[] = $id;
+                }
+            }
+        }
+        for ($i = 0; $i < $nbrFiliers; $i++) {
+            $this->model->storeProfInFilireCovenable($data, $idDepartement, $id_filieres[$i]);
         }
     }
     public function deleteProfesseur($cin)
@@ -80,10 +99,5 @@ class chefDepartementController
             $updated = $this->model->updateProf($mergedData, $cin);
             return $updated;
         }
-    }
-
-    public function storeProf_Filiere($data, $nom_filiere)
-    {
-        return $this->model->storeProfInFiliere($data, $nom_filiere);
     }
 }

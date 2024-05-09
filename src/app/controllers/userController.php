@@ -48,6 +48,7 @@ class userController
 
                 $_SESSION['nom'] = $utilisateur['nom'];
                 $_SESSION['prenom'] =  $utilisateur['prenom'];
+                $_SESSION['cin'] =  $utilisateur['cin'];
                 header("Location: http://localhost/gestion_notes_ensah/src/public/views/static/professeur/home.prof.php");
                 exit;
             }

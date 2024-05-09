@@ -8,14 +8,17 @@ class ComposerStaticInite9fd29d1deac983604a85a78eeab002b
 {
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'src\\app\\controllers\\RestController' => __DIR__ . '/../..' . '/src/app/controllers/RestController.php',
         'src\\app\\controllers\\adminController' => __DIR__ . '/../..' . '/src/app/controllers/adminController.php',
         'src\\app\\controllers\\chefDepartementController' => __DIR__ . '/../..' . '/src/app/controllers/chefDepartementController.php',
         'src\\app\\controllers\\coordinateurController' => __DIR__ . '/../..' . '/src/app/controllers/coordinateurController.php',
+        'src\\app\\controllers\\professeurController' => __DIR__ . '/../..' . '/src/app/controllers/professeurController.php',
         'src\\app\\controllers\\userController' => __DIR__ . '/../..' . '/src/app/controllers/userController.php',
+        'src\\app\\models\\RestModel' => __DIR__ . '/../..' . '/src/app/models/RestModel.php',
         'src\\app\\models\\adminModel' => __DIR__ . '/../..' . '/src/app/models/adminModel.php',
         'src\\app\\models\\chefDepartementModel' => __DIR__ . '/../..' . '/src/app/models/chefDepartementModel.php',
         'src\\app\\models\\coordinateurModel' => __DIR__ . '/../..' . '/src/app/models/coordinateurModel.php',
-        'src\\app\\models\\profModel' => __DIR__ . '/../..' . '/src/app/models/profModel.php',
+        'src\\app\\models\\professeurModel' => __DIR__ . '/../..' . '/src/app/models/professeurModel.php',
         'src\\app\\models\\userModel' => __DIR__ . '/../..' . '/src/app/models/userModel.php',
         'src\\app\\validattor\\Validator' => __DIR__ . '/../..' . '/src/app/validator/validation.php',
         'src\\database\\dbConnection' => __DIR__ . '/../..' . '/src/database/dbConnection.php',

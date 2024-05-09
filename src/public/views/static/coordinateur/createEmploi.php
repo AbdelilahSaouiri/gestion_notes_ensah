@@ -11,7 +11,9 @@ $cord = new coordinateurController;
 $cin_cord = isset($_SESSION['cin_cord']) ? $_SESSION['cin_cord'] : "";
 $departement = $cord->getDepartement($cin_cord);
 $filiers = $cord->getfiliere($cin_cord);
-$profsDepartement = $user->getProfsSelonDepartement($departement['id_departement']);
+$nbrFiliere = count($filiers);
+
+
 ?>
 <?php include_once "./masterPage.php"  ?>
 <main class="content">
@@ -29,18 +31,24 @@ $profsDepartement = $user->getProfsSelonDepartement($departement['id_departement
             <table class="table  table-bordered">
                 <thead>
                     <tr>
-                        <th class="bg-warning" col">Emploi du Professeur</th>
+                        <th class="bg-warning">
+                            Emploi du Professeur
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <?php foreach ($profsDepartement  as $prof) : ?>
-                            <td class="bg-primary text-white text-center">
-                                <?= $prof['nom']  ?>
-                                <?= $prof['prenom']  ?>
-                            </td>
-                    </tr>
-                <?php endforeach ?>
+                    <?php for ($i = 0; $i < $nbrFiliere; $i++) : ?>
+                        <?php $profs = $cord->getProfsSelonFilieres($filiers[$i]['id']); ?>
+                        <?php foreach ($profs as $prof) : ?>
+                            <tr>
+                                <td class="bg-primary text-white text-center d-flex justify-content-between align-items-center">
+                                    <span class="mx-3"><?= $prof['nom'] . ' ' . $prof['prenom'] ?></span>
+                                    <?= $prof['nom_filiere'] ?>
+                                    <a href="./emploiProf.php?nomProf=<?= $prof['nom'] ?>&prenom=<?= $prof['prenom'] ?>&filiere=<?= $prof['nom_filiere'] ?>&cin_prof=<?= $prof['cin'] ?>" class="text-white"><i class="bi bi-pencil mx-4"></i></a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endfor; ?>
                 </tbody>
             </table>
         </div>

@@ -70,9 +70,10 @@ class chefDepartementModel
 
     public function fetchProfsByDepartementId($idDepartement)
     {
-        $stmt = $this->conn->prepare("SELECT *  FROM professeur JOIN prof_departement
-                                      ON professeur.cin=prof_departement.cin_prof
-                                      where prof_departement.id_departement=:id_departement");
+        $stmt = $this->conn->prepare("SELECT DISTINCT p.*
+                        FROM professeur AS p
+                        JOIN prof_departement AS pd ON p.cin = pd.cin_prof
+                         WHERE pd.id_departement = :id_departement");
         $stmt->bindParam(':id_departement', $idDepartement);
         $stmt->execute();
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -171,20 +172,49 @@ class chefDepartementModel
             return false;
         }
     }
-    public function storeProfInFiliere($data, $nom_filiere)
+    // public function storeProfInFiliere($data, $nom_filiere)
+    // {
+    //     try {
+    //         $this->conn->beginTransaction();
+    //         $stmt = $this->conn->prepare("UPDATE module
+    //                                   SET cin_prof_cour = :cin_prof_cour,
+    //                                       cin_prof_td_tp = :cin_prof_td_tp
+    //                                   WHERE nom_filiere = :nom_filiere 
+    //                                   AND nom_modules = :nom_module");
+
+    //         $stmt->bindParam(':cin_prof_cour', $data['course_prof']);
+    //         $stmt->bindParam(':cin_prof_td_tp', $data['tdtp_prof']);
+    //         $stmt->bindParam(':nom_filiere', $nom_filiere);
+    //         $stmt->bindParam(':nom_module', $data['nom_module']);
+    //         $stmt->execute();
+    //         $this->conn->commit();
+    //         return true;
+    //     } catch (PDOException $e) {
+    //         $this->conn->rollback();
+    //         echo $e->getMessage();
+    //         return false;
+    //     }
+    // }
+
+    public function fetchIdFiliereByName($filiere)
+    {
+        $stmt = $this->conn->prepare("SELECT id  FROM filiere WHERE nom_filiere=:nom_filiere");
+        $stmt->bindParam(':nom_filiere', $filiere);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    public function storeProfInFilireCovenable($data, $idDepartement, $id)
     {
         try {
             $this->conn->beginTransaction();
-            $stmt = $this->conn->prepare("UPDATE module
-                                      SET cin_prof_cour = :cin_prof_cour,
-                                          cin_prof_td_tp = :cin_prof_td_tp
-                                      WHERE nom_filiere = :nom_filiere 
-                                      AND nom_modules = :nom_module");
-
-            $stmt->bindParam(':cin_prof_cour', $data['course_prof']);
-            $stmt->bindParam(':cin_prof_td_tp', $data['tdtp_prof']);
-            $stmt->bindParam(':nom_filiere', $nom_filiere);
-            $stmt->bindParam(':nom_module', $data['nom_module']);
+            $stmt = $this->conn->prepare("INSERT INTO  prof_departement(cin_prof,id_departement,id_filieres)
+                                      VALUES(:cin_prof,:id_departement,:id_filieres)");
+            $stmt->bindParam(':cin_prof', $data['cin']);
+            $stmt->bindParam(':id_departement', $idDepartement);
+            //$stmt->bindParam(':id_filieres', $id);
+            $stmt->bindValue(":id_filieres", $id, PDO::PARAM_STR);
             $stmt->execute();
             $this->conn->commit();
             return true;

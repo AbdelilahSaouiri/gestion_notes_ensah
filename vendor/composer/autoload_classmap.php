@@ -7,14 +7,17 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'src\\app\\controllers\\RestController' => $baseDir . '/src/app/controllers/RestController.php',
     'src\\app\\controllers\\adminController' => $baseDir . '/src/app/controllers/adminController.php',
     'src\\app\\controllers\\chefDepartementController' => $baseDir . '/src/app/controllers/chefDepartementController.php',
     'src\\app\\controllers\\coordinateurController' => $baseDir . '/src/app/controllers/coordinateurController.php',
+    'src\\app\\controllers\\professeurController' => $baseDir . '/src/app/controllers/professeurController.php',
     'src\\app\\controllers\\userController' => $baseDir . '/src/app/controllers/userController.php',
+    'src\\app\\models\\RestModel' => $baseDir . '/src/app/models/RestModel.php',
     'src\\app\\models\\adminModel' => $baseDir . '/src/app/models/adminModel.php',
     'src\\app\\models\\chefDepartementModel' => $baseDir . '/src/app/models/chefDepartementModel.php',
     'src\\app\\models\\coordinateurModel' => $baseDir . '/src/app/models/coordinateurModel.php',
-    'src\\app\\models\\profModel' => $baseDir . '/src/app/models/profModel.php',
+    'src\\app\\models\\professeurModel' => $baseDir . '/src/app/models/professeurModel.php',
     'src\\app\\models\\userModel' => $baseDir . '/src/app/models/userModel.php',
     'src\\app\\validattor\\Validator' => $baseDir . '/src/app/validator/validation.php',
     'src\\database\\dbConnection' => $baseDir . '/src/database/dbConnection.php',
