@@ -100,4 +100,14 @@ class chefDepartementController
             return $updated;
         }
     }
+
+    public function getAllfiliersInDepartement($cin)
+    {
+        return $this->model->fetchAllFilieresIndepartementByCin($cin);
+    }
+
+    public function getFiliereIdByCin($filiere)
+    {
+        return $this->model->fetchIdFiliereByName($filiere);
+    }
 }

@@ -224,4 +224,16 @@ class chefDepartementModel
             return false;
         }
     }
+
+    public function fetchAllFilieresIndepartementByCin($cin)
+    {
+        $stmt = $this->conn->prepare("SELECT *  FROM filiere JOIN
+                                      chef_departement
+                                      ON filiere.cin_chef_dep=chef_departement.cin
+                                       where cin_chef_dep=:cin");
+        $stmt->bindParam(':cin', $cin);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $data;
+    }
 }

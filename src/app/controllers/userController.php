@@ -39,8 +39,9 @@ class userController
                 exit;
             }
             if ($role == 1) {
-                $_SESSION['nom'] = $utilisateur['nom'];
-                $_SESSION['prenom'] =  $utilisateur['prenom'];
+                $_SESSION['nom_etud'] = $utilisateur['nom'];
+                $_SESSION['prenom_etud'] =  $utilisateur['prenom'];
+                $_SESSION['cin_etud'] = $utilisateur['cin'];
                 header("Location: http://localhost/gestion_notes_ensah/src/public/views/static/etudiant/home.etudiant.php");
                 exit;
             }

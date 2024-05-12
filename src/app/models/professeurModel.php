@@ -50,11 +50,13 @@ class professeurModel
         return $idFiliere;
     }
 
-    public function fetchStudentByFiliere($id_filiere)
+    public function fetchStudentByFiliere($id_filiere, $ann)
     {
         $stmt = $this->conn->prepare("SELECT * FROM etudiant 
-                                   WHERE id_filiere =:id_filiere");
+                                   WHERE id_filiere =:id_filiere
+                                   AND anne_universitaire=:ann");
         $stmt->bindParam(":id_filiere", $id_filiere);
+        $stmt->bindParam(":ann", $ann);
         $stmt->execute();
         $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $students;
@@ -104,12 +106,14 @@ class professeurModel
         return $idModule;
     }
 
-    public function fetchAllNotes($idFiliere, $idModule)
+    public function fetchAllNotes($idFiliere, $idModule, $ann)
     {
         $stmt = $this->conn->prepare("SELECT * FROM notes 
-                    WHERE id_filiere=:id_filiere AND id_module=:id_module");
+                    WHERE id_filiere=:id_filiere AND id_module=:id_module
+                    AND anne_universitaire=:ann_univer");
         $stmt->bindParam(':id_filiere', $idFiliere['id']);
         $stmt->bindParam(':id_module', $idModule['id']);
+        $stmt->bindParam(':ann_univer', $ann);
         $stmt->execute();
         $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $notes;
@@ -117,7 +121,8 @@ class professeurModel
 
     public function fetchNameOfStudentByCin($cin)
     {
-        $stmt = $this->conn->prepare("SELECT nom,prenom FROM etudiant WHERE cin = :cin");
+        $stmt = $this->conn->prepare("SELECT nom,prenom FROM etudiant 
+                    WHERE cin = :cin");
         $stmt->bindParam(":cin", $cin);
         $stmt->execute();
         $student = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -153,5 +158,13 @@ class professeurModel
             $this->conn->rollback();
             return false;
         }
+    }
+
+    public function fetchAnneUniversitaire()
+    {
+        $stmt = $this->conn->prepare("SELECT DISTINCT anne_universitaire FROM notes ");
+        $stmt->execute();
+        $anne_universiatires = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $anne_universiatires;
     }
 }

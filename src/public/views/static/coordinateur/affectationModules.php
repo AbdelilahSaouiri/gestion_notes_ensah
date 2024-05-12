@@ -14,11 +14,15 @@ $filiers = $cord->getfiliere($cin_cord);
 <?php include "./masterPage.php" ?>
 <main class="content">
     <div class="container-fluid p-0">
-        <h1 class="h3 mb-3 ">
-            Département:
-            <strong class="text-primary"> <?php echo isset($departement["nom_dep"]) ? $departement["nom_dep"] : "" ?>
-            </strong>
-        </h1>
+        <div class="card w-50" style="background-color: #183258;border-radius: 10px;">
+            <div class="card-body">
+                <h4>
+                    <span class="font-italic text-white mx-2">Département : </span>
+                    <strong class="text-white"> <?php echo isset($departement["nom_dep"]) ? $departement["nom_dep"] : "" ?>
+                    </strong>
+                </h4>
+            </div>
+        </div>
         <div class="row">
             <?php foreach ($filiers as $filiere) : ?>
                 <div class="col-sm-3">
@@ -26,7 +30,7 @@ $filiers = $cord->getfiliere($cin_cord);
                         <div class="card-body">
                             <div class="row">
                                 <div class="col mt-0">
-                                    <a href="./affectation_prof_modules.php?filiere=<?= $filiere['nom_filiere'] ?>" class="card-title"><?php echo $filiere['nom_filiere']; ?></a>
+                                    <a href="./affectation_prof_modules.php?filiere=<?= $filiere['nom_filiere'] ?>" class="card-title text-dark"><?php echo $filiere['nom_filiere']; ?></a>
                                 </div>
                             </div>
 

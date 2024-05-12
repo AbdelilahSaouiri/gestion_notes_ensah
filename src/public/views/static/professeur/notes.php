@@ -10,7 +10,9 @@ $nomFiliere = isset($_GET['filiere']) ? $_GET['filiere'] : "";
 $module = isset($_GET['module']) ? $_GET['module'] : "";
 $idModule = isset($_GET['id']) ? $_GET['id'] : "";
 $idFiliere = $user->getIdFiliereByName($nomFiliere);
-$students = $user->getAllStudentsByFiliere($idFiliere['id']);
+$yearSystem = new DateTime();
+$anne_univ = $yearSystem->format('Y');
+$students = $user->getAllStudentsByFiliere($idFiliere['id'], $anne_univ);
 $count = 0;
 $errors = [];
 if (isset($_POST['submit'])) {
@@ -63,7 +65,7 @@ if (isset($_POST['submit'])) {
 <div class="container mt-3">
     <div class="card w-75 mx-auto mb-3">
         <div class="card-header text-center">
-            <i class="bi bi-journal-bookmark-fill mx-3 pt-2 fs-4"></i> <strong class="font"><?= $module ?></strong>
+            <i class="bi bi-journal-bookmark-fill text-primary mx-3 pt-2 fs-4"></i> <strong class="font"><?= $module ?></strong>
         </div>
     </div>
     <form action="" method="post">

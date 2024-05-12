@@ -27,9 +27,9 @@ class professeurController
         return $this->model->fetchDepartement($cin_prof);
     }
 
-    public function getAllStudentsByFiliere($idFiliere)
+    public function getAllStudentsByFiliere($idFiliere, $anne_univ)
     {
-        return $this->model->fetchStudentByFiliere($idFiliere);
+        return $this->model->fetchStudentByFiliere($idFiliere, $anne_univ);
     }
 
     public function getIdFiliereByName($nomFiliere)
@@ -58,9 +58,9 @@ class professeurController
         $id_Filiere = $this->model->fetchIdFiliere($filiere);
         return $id_Filiere;
     }
-    public function getAllNotes($idFiliere, $idModule)
+    public function getAllNotes($idFiliere, $idModule, $anne_univ)
     {
-        return  $this->model->fetchAllNotes($idFiliere, $idModule);
+        return  $this->model->fetchAllNotes($idFiliere, $idModule, $anne_univ);
     }
 
     public function getNameStudentByCIn($cin)
@@ -77,5 +77,10 @@ class professeurController
     public function updateNote($data)
     {
         return $this->model->updateNoteStudent($data);
+    }
+
+    public function getAnneUinversitaires()
+    {
+        return $this->model->fetchAnneUniversitaire();
     }
 }

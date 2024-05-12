@@ -7,7 +7,6 @@ use src\app\controllers\chefDepartementController;
 $user = new chefDepartementController;
 $cin = isset($_SESSION['chef_cin']) ? $_SESSION['chef_cin'] : "";
 $departement = $user->getDepartement($cin);
-$departement = $user->getDepartement($cin);
 $profsDepartement = $user->getProfsSelonDepartement($departement['id_departement']);
 ?>
 

@@ -9,10 +9,10 @@ $filiere = isset($_GET['filiere']) ? $_GET['filiere'] : "";
 $module = isset($_GET['module']) ? $_GET['module'] : "";
 $moduleId = $user->getModuleId($module);
 $filiereId = $user->getFiliereId($filiere);
-$notes = $user->getAllNotes($filiereId, $moduleId);
 $semestre = $user->getSemsetre($module);
 $yearSystem = new DateTime();
 $anne_univ = $yearSystem->format('Y');
+$notes = $user->getAllNotes($filiereId, $moduleId, $anne_univ);
 
 //stocker les notes sous forme de csv
 if (isset($_POST['export'])) {

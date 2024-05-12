@@ -39,15 +39,15 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="grid"></i>
-                        <span class="align-middle">Les Notes Des Etudiants</span>
+                    <a class="sidebar-link" href="./consulterArchive.php">
+                        <i class="bi bi-archive"></i>
+                        <span class="align-middle">Consulter Les Notes </span>
                     </a>
                 </li>
 
                 <li class="sidebar-item">
-                    <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="check-square"></i>
+                    <a class="sidebar-link" href="./listesEtudiant.php">
+                        <i class="bi bi-card-checklist"></i>
                         <span class="align-middle">La liste Des Etudiants</span>
                     </a>
                 </li>
@@ -90,7 +90,7 @@
                             </a>
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                                <img src="../../../utilities/dashboard/src/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
+                                <img src="../../../utilities/dashboard/src/img/avatars/Unknown_person.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
                                 <span class="text-dark">
                                     <?php echo isset($_SESSION['nom']) && isset($_SESSION['prenom']) ? strtoupper($_SESSION['nom']) . " " . strtoupper($_SESSION['prenom']) : "" ?>
                                 </span>
@@ -103,3 +103,7 @@
                     </ul>
                 </div>
             </nav>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

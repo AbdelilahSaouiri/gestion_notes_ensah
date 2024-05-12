@@ -19,10 +19,10 @@ $modules = $cord->getModulesForeachProfesseur($cin_prof);
 <?php include_once "./masterPage.php"; ?>
 
 <main class="container ">
-    <div class="w-50 mx-auto mt-5 fs-4 text-center p-3 font " style="background:radial-gradient(788px at 0.7% 3.4%, rgb(164, 231, 192) 0%, rgb(255, 255, 255) 90%);">Consulter Notes :
-        <span class="d-block text-danger">Choisir la filiere </span>
+    <div class="w-50 mx-auto mt-5 fs-4 text-center p-2 text-white bg-danger" style="border-radius: 10px;">Choisir la
+        <span style="letter-spacing: 0.8px;">filiere</span>
     </div>
-    <div class=" mt-4 mx-auto w-50">
+    <div class="mt-5 mx-auto w-50">
         <?php foreach ($filiers as $filiere) : ?>
             <?php
             $modulesFiliere = array_filter($modules, function ($module) use ($filiere) {
@@ -30,7 +30,7 @@ $modules = $cord->getModulesForeachProfesseur($cin_prof);
             });
             ?>
             <details>
-                <summary class=" mt-3 p-3 text-white" style="background:radial-gradient(circle at 10% 20%, rgb(59, 149, 237) 0%, rgb(7, 91, 173) 90%);"><?= $filiere['nom_filiere'] ?></summary>
+                <summary class=" mt-3 p-3 text-white" style="background-color: #183258;border-radius:10px 10px 0 0;"><?= $filiere['nom_filiere'] ?></summary>
                 <div class=" accordion-content bg-info text-danger fs-4">
                     <?php foreach ($modulesFiliere as $module) : ?>
 

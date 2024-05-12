@@ -11,11 +11,11 @@ $filiers = $user->getfiliere($cin_cord);
 ?>
 <?php include_once "./masterPage.php"  ?>
 <main class="content">
-    <div class="card w-50">
+    <div class="card w-50" style="background-color: #183258;border-radius: 10px;">
         <div class="card-body">
             <h4>
-                <span class="font-italic">Département: </span>
-                <strong class="text-primary"> <?php echo isset($departement["nom_dep"]) ? $departement["nom_dep"] : "" ?>
+                <span class="font-italic text-white mx-2">Département : </span>
+                <strong class="text-white"> <?php echo isset($departement["nom_dep"]) ? $departement["nom_dep"] : "" ?>
                 </strong>
             </h4>
         </div>
@@ -27,7 +27,7 @@ $filiers = $user->getfiliere($cin_cord);
                     <div class="card-body">
                         <div class="row">
                             <div class="col mt-0">
-                                <h5 class="card-title"><?php echo $filiere['nom_filiere']; ?></h5>
+                                <h5 class="card-title text-dark"><?php echo $filiere['nom_filiere']; ?></h5>
                             </div>
                         </div>
                     </div>

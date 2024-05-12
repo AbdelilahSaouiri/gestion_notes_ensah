@@ -3,6 +3,7 @@
 namespace src\app\models;
 
 use PDO;
+use PDOException;
 use src\database\dbConnection;
 
 include_once __DIR__ . "../../../../vendor/autoload.php";
@@ -70,5 +71,40 @@ class coordinateurModel
         $stmt->execute();
         $modules = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $modules;
+    }
+
+    public function stockerNewPromo($data, $id, $ann)
+    {
+        try {
+            $this->conn->beginTransaction();
+            $stmt = $this->conn->prepare("INSERT INTO etudiant(nom,prenom,cin,cne,role,email_institutionnel,id_filiere,anne_universitaire)
+         VALUES  (:nom, :prenom,:cin,:cne,:role,:email_institutionnel,:id_filiere,:anne_universitaire)"); // Correction de la requête SQL
+            $stmt->bindParam(":nom", $data['nom']);
+            $stmt->bindParam(":prenom", $data['prenom']);
+            $stmt->bindParam(":cin", $data['cin']);
+            $stmt->bindParam(":cne", $data['cne']);
+            $role = 1;
+            $stmt->bindParam(":role", $role);
+            $stmt->bindParam(":email_institutionnel", $data['email_inst']);
+            $stmt->bindParam(":id_filiere", $id['id']);
+            $stmt->bindParam(":anne_universitaire", $ann);
+            $stmt->execute();
+            $this->conn->commit();
+            return true;
+        } catch (PDOException $e) {
+            $this->conn->rollback();
+            echo $e->getMessage();
+            return false;
+        }
+    }
+
+    public function auth($data)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM etudiant 
+                             WHERE cin = :cin");
+        $stmt->bindParam(":cin", $data['cin']);
+        $stmt->execute();
+        $student = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $student ? true : false;
     }
 }

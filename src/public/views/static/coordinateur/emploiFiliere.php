@@ -101,6 +101,21 @@ $modules = $user->getModulesByFiliere($filiere, $semestre);
             const droppableCells = document.querySelectorAll(".droppable-cell");
             let draggedModule = null;
 
+            // Fonction pour obtenir le nom de la filière
+            function getFiliere() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('filiere') || '';
+            }
+
+            // Fonction pour obtenir le semestre
+            function getSemestre() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('semestre') || '';
+            }
+
+            // Objet pour stocker les informations des modules
+            let emploi_filiere_nomFiliere = {};
+
             // Drag Start
             draggableElements.forEach(elem => {
                 elem.addEventListener("dragstart", function(event) {
@@ -138,37 +153,46 @@ $modules = $user->getModulesByFiliere($filiere, $semestre);
                         cell.textContent = draggedModule;
                         const day = cell.getAttribute("data-day");
                         const time = cell.getAttribute("data-time");
-                        const moduleInfo = {
+                        // Stocker les informations dans l'objet emploi_filiere_nomFiliere
+                        emploi_filiere_nomFiliere[day + "-" + time] = {
                             moduleId: draggedModule,
                             day: day,
-                            time: time
+                            time: time,
+                            filiere: getFiliere(),
+                            semestre: getSemestre()
                         };
-                        // Storing in local storage
-                        localStorage.setItem(day + "-" + time, JSON.stringify(moduleInfo));
+                        // Stocker l'objet dans le stockage local
+                        localStorage.setItem("emploi_filiere_" + getFiliere(), JSON.stringify(emploi_filiere_nomFiliere));
                         draggedModule = null;
                     }
                     cell.classList.remove("bg-info");
                 });
             });
 
-            // Load data from local storage on page load
+            // Charger les données depuis le stockage local lors du chargement de la page
             function loadSavedModules() {
-                droppableCells.forEach(cell => {
-                    const day = cell.getAttribute("data-day");
-                    const time = cell.getAttribute("data-time");
-                    const moduleInfo = JSON.parse(localStorage.getItem(day + "-" + time));
-                    if (moduleInfo) {
-                        cell.textContent = moduleInfo.moduleId;
-                    }
-                });
+                const savedData = localStorage.getItem("emploi_filiere_" + getFiliere());
+                if (savedData) {
+                    emploi_filiere_nomFiliere = JSON.parse(savedData);
+                    // Mettre à jour les cellules avec les données chargées
+                    Object.keys(emploi_filiere_nomFiliere).forEach(key => {
+                        const moduleInfo = emploi_filiere_nomFiliere[key];
+                        const cell = document.querySelector(`.droppable-cell[data-day="${moduleInfo.day}"][data-time="${moduleInfo.time}"]`);
+                        if (cell) {
+                            cell.textContent = moduleInfo.moduleId;
+                        }
+                    });
+                }
             }
 
             loadSavedModules();
 
-            // Reset button functionality
+            // Bouton de réinitialisation
             const resetBtn = document.getElementById("resetBtn");
             resetBtn.addEventListener("click", function() {
-                localStorage.clear();
+                // Effacer les données du stockage local et réinitialiser les cellules
+                localStorage.removeItem("emploi_filiere_" + getFiliere());
+                emploi_filiere_nomFiliere = {};
                 droppableCells.forEach(cell => {
                     cell.textContent = "";
                 });

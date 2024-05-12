@@ -15,6 +15,14 @@ class coordinateurController
         $this->model = new coordinateurModel;
     }
 
+    public function StorenewPromo($data, $id, $ann)
+    {
+        if ($this->model->auth($data)) {
+            return false;
+        }
+        return $this->model->stockerNewPromo($data, $id, $ann);
+    }
+
     public function getDepartement($cin)
     {
         return $this->model->fetchDepartement($cin);

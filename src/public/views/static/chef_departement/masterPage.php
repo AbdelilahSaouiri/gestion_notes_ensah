@@ -43,21 +43,19 @@
                         <span class="align-middle">Gestion de Professeurs</span>
                     </a>
                 </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="#">
-                        <i class="align-middle" data-feather="check-square"></i>
-                        <span class="align-middle">Consulter les Notes</span>
-                    </a>
-                </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="./prof_f.php">
                         <i class=" align-middle" data-feather="check-square"></i>
-                        <span class="align-middle"> affectation de Modules</span>
+                        <span class="align-middle">Affectation Des Modules</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="./consulterArchive.php">
+                        <i class="bi bi-archive"></i>
+                        <span class="align-middle">Consulter Archive</span>
                     </a>
                 </li>
                 </ul>
-
         </nav>
         <div class="main">
             <nav class="navbar navbar-expand navbar-light navbar-bg ">
@@ -80,7 +78,7 @@
                             </a>
 
                             <a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-bs-toggle="dropdown">
-                                <img src="../../../utilities/dashboard/src/img/avatars/avatar.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
+                                <img src="../../../utilities/dashboard/src/img/avatars/Unknown_person.jpg" class="avatar img-fluid rounded me-1" alt="Charles Hall" />
                                 <span class="text-dark">
                                     <?= isset($_SESSION['nom']) && isset($_SESSION['prenom']) ? strtoupper($_SESSION['nom']) . " " . strtoupper($_SESSION['prenom']) : "" ?>
                                 </span>
