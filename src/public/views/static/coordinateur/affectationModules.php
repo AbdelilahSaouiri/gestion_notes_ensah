@@ -33,7 +33,6 @@ $filiers = $cord->getfiliere($cin_cord);
                                     <a href="./affectation_prof_modules.php?filiere=<?= $filiere['nom_filiere'] ?>" class="card-title text-dark"><?php echo $filiere['nom_filiere']; ?></a>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>

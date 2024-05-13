@@ -172,29 +172,18 @@ class chefDepartementModel
             return false;
         }
     }
-    // public function storeProfInFiliere($data, $nom_filiere)
-    // {
-    //     try {
-    //         $this->conn->beginTransaction();
-    //         $stmt = $this->conn->prepare("UPDATE module
-    //                                   SET cin_prof_cour = :cin_prof_cour,
-    //                                       cin_prof_td_tp = :cin_prof_td_tp
-    //                                   WHERE nom_filiere = :nom_filiere 
-    //                                   AND nom_modules = :nom_module");
-
-    //         $stmt->bindParam(':cin_prof_cour', $data['course_prof']);
-    //         $stmt->bindParam(':cin_prof_td_tp', $data['tdtp_prof']);
-    //         $stmt->bindParam(':nom_filiere', $nom_filiere);
-    //         $stmt->bindParam(':nom_module', $data['nom_module']);
-    //         $stmt->execute();
-    //         $this->conn->commit();
-    //         return true;
-    //     } catch (PDOException $e) {
-    //         $this->conn->rollback();
-    //         echo $e->getMessage();
-    //         return false;
-    //     }
-    // }
+    public function fetchArchivesNotes($idFiliere, $idModule, $ann)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM notes 
+                    WHERE id_filiere=:id_filiere AND id_module=:id_module
+                    AND anne_universitaire=:ann_univer");
+        $stmt->bindParam(':id_filiere', $idFiliere['id']);
+        $stmt->bindParam(':id_module', $idModule['id']);
+        $stmt->bindParam(':ann_univer', $ann);
+        $stmt->execute();
+        $notes = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $notes;
+    }
 
     public function fetchIdFiliereByName($filiere)
     {

@@ -52,4 +52,16 @@ class studentController
         $student = $this->model->fetchNameOfStudentByCin($cin);
         return $student['nom'] . ' ' . $student['prenom'];
     }
+
+    public function getSalleCours($idfiliere)
+    {
+        return $this->model->fetchSalleCours($idfiliere);
+    }
+
+    // public function getProfFullNameForModule($module)
+    // {
+    //     if (str_contains($module, '(TD/TP)'))
+    //         return $this->model->fetchProfTdTp($module);
+    //     else return $this->model->fetchNomProCourfForModule($module);
+    // }
 }

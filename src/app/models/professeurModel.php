@@ -167,4 +167,13 @@ class professeurModel
         $anne_universiatires = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $anne_universiatires;
     }
+
+    public function fetchSalleCoursTd($cin_prof)
+    {
+        $stmt = $this->conn->prepare("SELECT * from prof_salle WHERE cin_prof=:cin");
+        $stmt->bindParam(":cin", $cin_prof);
+        $stmt->execute();
+        $salle = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $salle;
+    }
 }

@@ -46,4 +46,30 @@ class coordinateurController
     {
         return $this->model->fetchModulesForProf($cin_prof);
     }
+
+    public function stockerProfSalle($salle_cours, $salle_td_tp, $cin_prof)
+    {
+        if ($this->model->authProfSalle($cin_prof)) {
+            return false;
+        }
+        return $this->model->storeProfSalle($salle_cours, $salle_td_tp, $cin_prof);
+    }
+
+    public function stockerFiliereSalle($salleCours, $idFiliere)
+    {
+        if ($this->model->authFiliereSalle($idFiliere)) {
+            $this->model->updateSalle($idFiliere, $salleCours);
+        }
+        return $this->model->storeFiliereSalle($salleCours, $idFiliere);
+    }
+
+    public function getIdFiliereByName($filiere)
+    {
+        return $this->model->fetchIdFiliereByName($filiere);
+    }
+
+    public function getAllStudentsByFilierId($filiereId, $ann_uinversitaire)
+    {
+        return $this->model->fetchALlStudentsByFiliereId($filiereId, $ann_uinversitaire);
+    }
 }

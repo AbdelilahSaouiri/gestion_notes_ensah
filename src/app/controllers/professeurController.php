@@ -83,4 +83,8 @@ class professeurController
     {
         return $this->model->fetchAnneUniversitaire();
     }
+    public function getSalleCoursTd($cin_prof)
+    {
+        return $this->model->fetchSalleCoursTd($cin_prof);
+    }
 }

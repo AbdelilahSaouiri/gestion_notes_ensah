@@ -9,6 +9,8 @@
     <title> Etudiant </title>
     <link href="../../../utilities/dashboard/static/css/app.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="../../../utilities/img/logo-ensah.png">
+
     <style>
         body {
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;

@@ -110,4 +110,8 @@ class chefDepartementController
     {
         return $this->model->fetchIdFiliereByName($filiere);
     }
+    public function getArchivesNotes($idfiliere, $idModule, $ann_univ)
+    {
+        return $this->model->fetchArchivesNotes($idfiliere, $idModule, $ann_univ);
+    }
 }

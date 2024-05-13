@@ -16,8 +16,7 @@ $moduleId = $prof->getModuleId($module);
 $ann_univ = isset($_GET['anne']) ? $_GET['anne'] : "";
 $filiere = isset($_GET['filiere']) ? $_GET['filiere'] : "";
 $idfiliere = $user->getFiliereIdByCin($filiere);
-$notes = $student->getArchivesNotes($idfiliere, $moduleId, $ann_univ);
-
+$notes = $user->getArchivesNotes($idfiliere, $moduleId, $ann_univ);
 ?>
 
 

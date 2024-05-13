@@ -14,13 +14,19 @@ $prenomProf = isset($_GET['prenom']) ? $_GET['prenom'] : "";
 $filiere = isset($_GET['filiere']) ? $_GET['filiere'] : "";
 $cin_prof = isset($_GET['cin_prof']) ? $_GET['cin_prof'] : "";
 $modulesForProf = $user->getModulesForeachProfesseur($cin_prof);
+
+if (isset($_POST['submit'])) {
+    $salleCours = isset($_POST['salle_cours']) ? $_POST['salle_cours'] : "";
+    $salleTd = isset($_POST['salle_td_tp']) ? $_POST['salle_td_tp'] : "";
+    $registred = $user->stockerProfSalle($salleCours, $salleTd, $cin_prof);
+}
 ?>
 <?php include_once "./masterPage.php" ?>
 
 <main class="container">
-    <div class="mt-3 mx-auto w-75 ">
+    <div class="mt-2 mx-auto w-75">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="border-radius:10px ;">
                 <div class="d-flex justify-content-between">
                     <div class="mx-3">
                         <span>Professeur : </span> <strong class="text-primary text-capitalize"><?= $nomProf . ' ' . $prenomProf . ''  ?></strong>
@@ -32,7 +38,7 @@ $modulesForProf = $user->getModulesForeachProfesseur($cin_prof);
             </div>
         </div>
     </div>
-    <div class="mt-4 mx-3 d-flex justify-content-center">
+    <div class="fs-6 mx-3 d-flex justify-content-center">
         <table class="table table-bordered ">
             <thead>
                 <tr class="bg-success w-25">
@@ -104,8 +110,73 @@ $modulesForProf = $user->getModulesForeachProfesseur($cin_prof);
             </div>
         <?php endforeach; ?>
     </div>
+    <div class="container-sm text-center w-50 mt-5">
+        <form action="" method="post">
+            <select name="salle_cours" class="form-select" aria-label="Default select example">
+                <option selected>Salle De Cours</option>
+                <option value="1_A">Salle 1 Bloc A</option>
+                <option value="2_A">Salle 2 Bloc A</option>
+                <option value="3_A">Salle 3 Bloc A</option>
+                <option value="4_A">Salle 4 Bloc A</option>
+                <option value="5_A">Salle 5 Bloc A</option>
+                <option value="6_A">Salle 6 Bloc A</option>
+                <option value="7_A">Salle 8 Bloc A</option>
+                <option value="8_A">Salle 7 Bloc A</option>
+                <option value="9_A">Salle 9 Bloc A</option>
+                <option value="10_A">Salle 10 Bloc A</option>
+                <option value="11_A">Salle 11 Bloc A</option>
+                <option value="12_A">Salle 12 Bloc A</option>
+                <option value="13_A">Salle 13 Bloc A</option>
+                <option value="14_A">Salle 14 Bloc A</option>
+                <option value="15_A">Salle 15 Bloc A</option>
+                <option value="16_A">Salle 16 Bloc A</option>
+                <option value="17_A">Salle 17 Bloc A</option>
+                <option value="1_B">Salle 1 Bloc B</option>
+                <option value="2_B">Salle 2 Bloc B</option>
+                <option value="3_B">Salle 3 Bloc B</option>
+                <option value="4_B">Salle 4 Bloc B</option>
+                <option value="5_B">Salle 5 Bloc B</option>
+                <option value="6_B">Salle 6 Bloc B</option>
+                <option value="8_B">Salle 8 Bloc B</option>
+                <option value="9_B">Salle 9 Bloc B</option>
+                <option value="10_B">Salle 10 Bloc B</option>
+            </select>
+            <select name="salle_td_tp" class="form-select" aria-label="Default select example">
+                <option selected>Salle De TD/TP</option>
+                <option value="1_A">Salle 1 Bloc A</option>
+                <option value="2_A">Salle 2 Bloc A</option>
+                <option value="3_A">Salle 3 Bloc A</option>
+                <option value="4_A">Salle 4 Bloc A</option>
+                <option value="5_A">Salle 5 Bloc A</option>
+                <option value="6_A">Salle 6 Bloc A</option>
+                <option value="8_A">Salle 8 Bloc A</option>
+                <option value="8_A">Salle 7 Bloc A</option>
+                <option value="9_A">Salle 9 Bloc A</option>
+                <option value="10_A">Salle 10 Bloc A</option>
+                <option value="11_A">Salle 11 Bloc A</option>
+                <option value="12_A">Salle 12 Bloc A</option>
+                <option value="13_A">Salle 13 Bloc A</option>
+                <option value="14_A">Salle 14 Bloc A</option>
+                <option value="15_A">Salle 15 Bloc A</option>
+                <option value="16_A">Salle 16 Bloc A</option>
+                <option value="17_A">Salle 17 Bloc A</option>
+                <option value="1_B">Salle 1 Bloc B</option>
+                <option value="2_B">Salle 2 Bloc B</option>
+                <option value="3_B">Salle 3 Bloc B</option>
+                <option value="4_B">Salle 4 Bloc B</option>
+                <option value="5_B">Salle 5 Bloc B</option>
+                <option value="6_B">Salle 6 Bloc B</option>
+                <option value="8_B">Salle 8 Bloc B</option>
+                <option value="9_B">Salle 9 Bloc B</option>
+                <option value="10_B">Salle 10 Bloc B</option>
+            </select>
+            <div class="mt-3 text-center">
+                <button name="submit" class="btn btn-success w-25">Valider</button>
+            </div>
+        </form>
+    </div>
     <div class="mt-3 text-center">
-        <button id="resetBtn" class="btn btn-danger">Réinitialiser</button>
+        <button id="resetBtn" class="btn btn-danger" style="width: 125px;">Réinitialiser</button>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

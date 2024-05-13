@@ -28,7 +28,7 @@ $notes = $user->getArchivesNotes($idfiliere, $moduleId, $ann_univ);
                 <span class=" text-white py-2 ms-4">Année universitaire : <?= $ann_univ ?></span>
                 <span class=" text-white py-2 me-4">Semestre: <?= $semestre ?></span>
             </div>
-            <table class="table table-bordered w-75 mx-auto mt-3">
+            <table class="table fs-5 table-bordered w-75 mx-auto mt-3">
                 <thead style="background-color: #183258;">
                     <tr class="text-center">
                         <th class="text-white">CIN</th>

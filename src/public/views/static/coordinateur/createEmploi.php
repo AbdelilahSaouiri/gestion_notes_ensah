@@ -12,9 +12,20 @@ $cin_cord = isset($_SESSION['cin_cord']) ? $_SESSION['cin_cord'] : "";
 $departement = $cord->getDepartement($cin_cord);
 $filiers = $cord->getfiliere($cin_cord);
 $nbrFiliere = count($filiers);
+$allProfs = [];
+
+foreach ($filiers as $f) {
+    // Récupérer les professeurs pour cette filière
+    $profs = $cord->getProfsSelonFilieres($f['id']);
+    // Fusionner les tableaux de professeurs
+    $allProfs = array_merge($allProfs, $profs);
+}
+
+$allProfs = array_unique($allProfs, SORT_REGULAR);
 
 
 ?>
+
 <?php include_once "./masterPage.php"  ?>
 <main class="content">
     <div class="card w-50">
@@ -37,18 +48,16 @@ $nbrFiliere = count($filiers);
                     </tr>
                 </thead>
                 <tbody>
-                    <?php for ($i = 0; $i < $nbrFiliere; $i++) : ?>
-                        <?php $profs = $cord->getProfsSelonFilieres($filiers[$i]['id']); ?>
-                        <?php foreach ($profs as $prof) : ?>
-                            <tr>
-                                <td class="bg-primary text-white text-center d-flex justify-content-between align-items-center">
-                                    <span class="mx-3"><?= $prof['nom'] . ' ' . $prof['prenom'] ?></span>
-                                    <?= $prof['nom_filiere'] ?>
-                                    <a href="./emploiProf.php?nomProf=<?= $prof['nom'] ?>&prenom=<?= $prof['prenom'] ?>&filiere=<?= $prof['nom_filiere'] ?>&cin_prof=<?= $prof['cin'] ?>" class="text-white"><i class="bi bi-pencil mx-4"></i></a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endfor; ?>
+
+                    <?php foreach ($allProfs as $prof) : ?>
+                        <tr>
+                            <td class="bg-primary text-white text-center d-flex justify-content-between align-items-center">
+                                <span class="mx-3"><?= $prof['nom'] . ' ' . $prof['prenom'] ?></span>
+                                <a href="./emploiProf.php?nomProf=<?= $prof['nom'] ?>&prenom=<?= $prof['prenom'] ?>&filiere=<?= $prof['nom_filiere'] ?>&cin_prof=<?= $prof['cin'] ?>" class="text-white"><i class="bi bi-pencil-square me-2 fs-4 text-white"></i></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+
                 </tbody>
             </table>
         </div>

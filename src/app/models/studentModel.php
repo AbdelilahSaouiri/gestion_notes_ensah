@@ -77,7 +77,7 @@ class studentModel
         $stmt = $this->conn->prepare("SELECT * FROM notes 
                     WHERE id_filiere=:id_filiere AND id_module=:id_module
                     AND anne_universitaire=:ann_univer");
-        $stmt->bindParam(':id_filiere', $idFiliere['id']);
+        $stmt->bindParam(':id_filiere', $idFiliere['id_filiere']);
         $stmt->bindParam(':id_module', $idModule['id']);
         $stmt->bindParam(':ann_univer', $ann);
         $stmt->execute();
@@ -93,4 +93,47 @@ class studentModel
         $student = $stmt->fetch(PDO::FETCH_ASSOC);
         return $student;
     }
+
+    public  function fetchSalleCours($idFiliere)
+    {
+        $stmt = $this->conn->prepare("SELECT salle_cours from filiere_salle 
+        WHERE filiere_id=:id");
+        $stmt->bindParam(':id', $idFiliere);
+        $stmt->execute();
+        $salleCour = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $salleCour;
+    }
+
+
+    // public function fetchProfTdTp($module)
+    // {
+    //     $stmt = $this->conn->prepare("SELECT nom, prenom FROM professeur
+    //                               JOIN module ON professeur.cin = module.cin_prof_td_tp
+    //                               JOIN prof_departement ON module.cin_prof_td_tp=prof_departement.cin_prof
+    //                               WHERE nom_modules = :module");
+    //     $stmt->bindParam(':module', $module);
+    //     $stmt->execute();
+    //     $fullName = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     if ($fullName) {
+    //         return $fullName['nom'] . ' ' . $fullName['prenom'];
+    //     } else {
+    //         return "encors";
+    //     }
+    // }
+
+    // public function fetchNomProCourfForModule($module)
+    // {
+    //     $stmt = $this->conn->prepare("SELECT nom, prenom FROM professeur
+    //                               JOIN module ON professeur.cin = module.cin_prof_cour
+    //                               JOIN prof_departement ON module.cin_prof_cour=prof_departement.cin_prof
+    //                               WHERE nom_modules = :module");
+    //     $stmt->bindParam(':module', $module);
+    //     $stmt->execute();
+    //     $fullName = $stmt->fetch(PDO::FETCH_ASSOC);
+    //     if ($fullName) {
+    //         return $fullName['nom'] . ' ' . $fullName['prenom'];
+    //     } else {
+    //         return "encors";
+    //     }
+    // }
 }

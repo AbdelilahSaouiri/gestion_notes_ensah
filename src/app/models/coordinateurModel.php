@@ -107,4 +107,72 @@ class coordinateurModel
         $student = $stmt->fetch(PDO::FETCH_ASSOC);
         return $student ? true : false;
     }
+
+    public function authProfSalle($cin_prof)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM prof_salle
+                             WHERE cin_prof = :cin");
+        $stmt->bindParam(":cin", $cin_prof);
+        $stmt->execute();
+        $student = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $student ? true : false;
+    }
+    public function storeProfSalle($salle_cours, $salle_td_tp, $cin_prof)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO prof_salle(cin_prof,num_salle_cour,num_salle_td_tp) 
+                             VALUES(:cin,:cour,:td)");
+        $stmt->bindParam(":cin", $cin_prof);
+        $stmt->bindParam(":cour", $salle_cours);
+        $stmt->bindParam(":td", $salle_td_tp);
+        $stmt->execute();
+        return true;
+    }
+    public function authFiliereSalle($idFiliere)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM filiere_salle
+                             WHERE filiere_id = :id");
+        $stmt->bindParam(":id", $idFiliere);
+        $stmt->execute();
+        $student = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $student ? true : false;
+    }
+
+    public function storeFiliereSalle($salleCours, $idFiliere)
+    {
+        $stmt = $this->conn->prepare("INSERT INTO filiere_salle(salle_cours,filiere_id) 
+                             VALUES(:cour,:id)");
+        $stmt->bindParam(":cour", $salleCours);
+        $stmt->bindParam(":id", $idFiliere);
+        $stmt->execute();
+        return true;
+    }
+
+    public function fetchIdFiliereByName($filiere)
+    {
+        $stmt = $this->conn->prepare("SELECT id  FROM filiere WHERE nom_filiere=:nom_filiere");
+        $stmt->bindParam(':nom_filiere', $filiere);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $data;
+    }
+
+    public function  updateSalle($idFiliere, $newSalle)
+    {
+        $stmt = $this->conn->prepare("UPDATE filiere_salle set salle_cours=:newSalle
+         WHERE filiere_id=:filiere_id");
+        $stmt->bindParam(':newSalle', $newSalle);
+        $stmt->bindParam(':filiere_id', $idFiliere);
+        $stmt->execute();
+    }
+
+    public function fetchALlStudentsByFiliereId($filiereId, $ann_uinversitaire)
+    {
+        $stmt = $this->conn->prepare("SELECT * from etudiant 
+                                      WHERE id_filiere=:id AND anne_universitaire=:anne");
+        $stmt->bindParam(':id', $filiereId);
+        $stmt->bindParam(':anne', $ann_uinversitaire);
+        $stmt->execute();
+        $students = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $students;
+    }
 }

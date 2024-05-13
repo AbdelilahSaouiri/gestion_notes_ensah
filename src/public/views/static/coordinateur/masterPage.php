@@ -9,6 +9,7 @@
     <title> Coordinateur</title>
     <link href="../../../utilities/dashboard/static/css/app.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="../../../utilities/img/logo-ensah.png">
     <style>
         body {
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -48,7 +49,7 @@
                 <li class="sidebar-item">
                     <a class="sidebar-link" href="./listesEtudiant.php">
                         <i class="bi bi-card-checklist"></i>
-                        <span class="align-middle">La liste Des Etudiants</span>
+                        <span class="align-middle fs-5">Fournir La liste Des Etudiants</span>
                     </a>
                 </li>
                 <li class="sidebar-item">
@@ -61,6 +62,12 @@
                     <a class="sidebar-link" href="./createEmploi.php">
                         <i class="align-middle" data-feather="check-square"></i>
                         <span class="align-middle"> Créer L'Emploi Du Temps</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="./listesDesEtudiants.php">
+                        <i class="align-middle" data-feather="check-square"></i>
+                        <span class="align-middle"> Consulter La liste Des Etudiants</span>
                     </a>
                 </li>
                 </ul>

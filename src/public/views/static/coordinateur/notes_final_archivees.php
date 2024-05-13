@@ -15,6 +15,8 @@ $filiereId = $prof->getFiliereId($filiere);
 $module = isset($_GET['module']) ? $_GET['module'] : "";
 $moduleId = $prof->getModuleId($module);
 $notes = $prof->getAllNotes($filiereId, $moduleId, $anne_univ);
+$firstWordOfModule = explode(' ', $module)[0];
+
 
 ?>
 <?php include_once "./masterPage.php"  ?>
@@ -28,7 +30,7 @@ $notes = $prof->getAllNotes($filiereId, $moduleId, $anne_univ);
                 </div>
             </div>
         </div>
-        <table class="table table-bordered  mx-auto mt-3">
+        <table class="table fs-6 table-bordered  mx-auto mt-3">
             <thead style="background-color: #183258;">
                 <tr class="text-center">
                     <th class="text-white">CIN</th>
@@ -61,9 +63,44 @@ $notes = $prof->getAllNotes($filiereId, $moduleId, $anne_univ);
             </tbody>
         </table>
     </div>
+    <div class="mt-4 mx-auto w-50">
+        <div class="d-flex justify-content-center gap-2 align-items-center">
+            <div class="fs-5 text-primary">Télécharger</div>
+            <div>
+                <a href="#" id="downloadLink">
+                    <i class="bi bi-cloud-arrow-down-fill text-primary fs-1 mb-2"></i>
+                </a>
+            </div>
 
+        </div>
+    </div>
+
+    <script>
+        const filiere = "<?= $filiere ?>";
+        const module = "<?= $firstWordOfModule ?>";
+        const semestre = " <?= $semestre ?>";
+        const ann = "<?= $anne_univ ?>"
+        document.getElementById('downloadLink').addEventListener('click', function() {
+            var csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "CIN,Etudiant,Note DS,Note Exam,Note TP_Projet,Note Finale,Resultat\n";
+            var rows = document.querySelectorAll('table tbody tr');
+            rows.forEach(function(row) {
+                var rowData = [];
+                row.querySelectorAll('td').forEach(function(cell) {
+                    rowData.push(cell.innerText);
+                });
+                csvContent += rowData.join(',') + "\n";
+            });
+
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `notes-${filiere}-${module}-semestre-${semestre}-${ann}.csv`);
+            document.body.appendChild(link);
+            link.click();
+        });
+    </script>
 </main>
-
 
 <script src="../../../utilities/dashboard/static/js/app.js"></script>
 </body>
